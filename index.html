@@ -8,7 +8,7 @@
     :root {
       --bg-1: #fff7ed;
       --bg-2: #ffedd5;
-      --bg-3: #fde68a;
+      --bg-3: #fef3c7;
       --card: #fffaf0;
       --card-2: #ffffff;
       --primary: #ea580c;
@@ -34,9 +34,9 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC",
         "Helvetica Neue", Arial, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(251, 146, 60, 0.28), transparent 32%),
+        radial-gradient(circle at top left, rgba(251, 146, 60, 0.3), transparent 32%),
         radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.28), transparent 34%),
-        linear-gradient(135deg, var(--bg-1), var(--bg-2), #fef3c7);
+        linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
       color: var(--text);
       min-height: 100vh;
       padding: 18px;
@@ -44,7 +44,7 @@
 
     .app {
       width: 100%;
-      max-width: 880px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -125,9 +125,10 @@
     .flashcard {
       position: relative;
       width: 100%;
-      min-height: 500px;
+      min-height: 480px;
       transform-style: preserve-3d;
       transition: transform 0.65s ease;
+      cursor: pointer;
     }
 
     .flashcard.flipped {
@@ -137,12 +138,12 @@
     .flashcard-face {
       position: absolute;
       width: 100%;
-      min-height: 500px;
+      min-height: 480px;
       top: 0;
       left: 0;
       backface-visibility: hidden;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,247,237,0.96));
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.97));
       border: 1px solid var(--border);
       border-radius: 30px;
       box-shadow: 0 18px 42px var(--shadow);
@@ -154,8 +155,8 @@
     .flashcard-back::before {
       content: "";
       position: absolute;
-      width: 220px;
-      height: 220px;
+      width: 230px;
+      height: 230px;
       border-radius: 999px;
       background: rgba(251, 146, 60, 0.12);
       top: -80px;
@@ -163,19 +164,42 @@
       z-index: 0;
     }
 
+    .flashcard-front::after,
+    .flashcard-back::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.12);
+      bottom: -55px;
+      left: -45px;
+      z-index: 0;
+    }
+
     .flashcard-back {
       transform: rotateY(180deg);
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(254,243,199,0.95));
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(254,243,199,0.96));
     }
 
     .card-content {
       position: relative;
       z-index: 1;
-      min-height: 440px;
+      min-height: 420px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    .front-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-align: center;
     }
 
     .badge-row {
@@ -204,27 +228,46 @@
       border-color: #fde68a;
     }
 
+    .article-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 78px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fb923c, #f59e0b);
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 950;
+      box-shadow: 0 7px 18px rgba(234, 88, 12, 0.22);
+    }
+
     .word {
-      font-size: 3rem;
+      font-size: 3.3rem;
       font-weight: 950;
       text-align: center;
-      margin: 16px 0 10px;
+      margin: 10px 0;
       color: var(--brown);
       word-break: break-word;
+      line-height: 1.15;
+    }
+
+    .front-word {
+      font-size: 3.8rem;
     }
 
     .pronunciation {
       text-align: center;
       color: var(--muted);
       font-size: 1rem;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
 
     .tap-hint {
       text-align: center;
       color: var(--muted);
       font-size: 0.95rem;
-      margin-top: 18px;
+      margin-top: 14px;
       line-height: 1.6;
     }
 
@@ -253,6 +296,17 @@
       color: #3f2a1a;
       font-size: 1.05rem;
       font-weight: 750;
+    }
+
+    .back-type-box {
+      margin: 12px 0;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid #fed7aa;
+      background: rgba(255, 237, 213, 0.75);
+      color: #7c2d12;
+      font-weight: 850;
+      line-height: 1.6;
     }
 
     .example {
@@ -346,7 +400,44 @@
       font-weight: 700;
     }
 
-    /* 數字練習 */
+    .speech-settings {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255, 250, 240, 0.82);
+      box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
+    }
+
+    .speech-settings-title {
+      font-weight: 950;
+      color: var(--brown);
+      margin-bottom: 10px;
+    }
+
+    .speech-control {
+      display: grid;
+      grid-template-columns: 110px 1fr 54px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .speech-control label {
+      margin: 0;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    .rate-value {
+      text-align: right;
+      font-weight: 950;
+      color: #9a3412;
+    }
+
+    /* 測驗模式 */
     .practice-section {
       background:
         linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.96));
@@ -444,7 +535,7 @@
       margin-bottom: 6px;
     }
 
-    input {
+    input[type="number"] {
       width: 100%;
       border: 1px solid #fdba74;
       border-radius: 12px;
@@ -455,7 +546,7 @@
       color: var(--text);
     }
 
-    input:focus {
+    input[type="number"]:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
     }
@@ -519,15 +610,19 @@
 
       .flashcard,
       .flashcard-face {
-        min-height: 560px;
+        min-height: 520px;
       }
 
       .card-content {
-        min-height: 500px;
+        min-height: 460px;
       }
 
       .word {
         font-size: 2.35rem;
+      }
+
+      .front-word {
+        font-size: 2.85rem;
       }
 
       .translation-grid {
@@ -550,6 +645,15 @@
         grid-template-columns: 1fr;
       }
 
+      .speech-control {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .rate-value {
+        text-align: left;
+      }
+
       .big-value {
         font-size: 2.5rem;
       }
@@ -570,8 +674,8 @@
     <header>
       <h1>德語單字翻頁字卡</h1>
       <p>
-        點擊字卡可翻面查看中英對照與例句。<br />
-        也可切換到數字練習：隨機數字、年份、月份。
+        正面只看德語單字、發音與冠詞提示。<br />
+        翻到背面後再看中英意思、詞性和例句。
       </p>
     </header>
 
@@ -580,7 +684,7 @@
         德語單字
       </button>
       <button class="tab-btn" id="practiceTab" onclick="switchMainSection('practice')">
-        數字練習
+        測驗模式
       </button>
     </div>
 
@@ -595,31 +699,24 @@
         <div class="flashcard" id="flashcard" onclick="flipCard()">
           <div class="flashcard-face flashcard-front">
             <div class="card-content">
-              <div>
-                <div class="badge-row">
-                  <span class="badge" id="frontIndexBadge">1 / 28</span>
-                  <span class="badge type" id="frontTypeBadge">Nomen</span>
-                </div>
-
-                <div class="word" id="word">der Tisch</div>
-                <div class="pronunciation" id="pronunciation">德語發音：der Tisch</div>
-
-                <div class="translation-grid">
-                  <div class="translation-box">
-                    <strong>中文</strong>
-                    <span id="frontChinese">桌子</span>
-                  </div>
-                  <div class="translation-box">
-                    <strong>English</strong>
-                    <span id="frontEnglish">table</span>
-                  </div>
-                </div>
+              <div class="badge-row">
+                <span class="badge" id="frontIndexBadge">1 / 28</span>
               </div>
 
-              <div>
-                <div class="tap-hint">
-                  點擊字卡翻面，查看例句與完整中英對照。
+              <div class="front-center">
+                <div class="article-badge" id="frontArticleBadge">der</div>
+                <div class="word front-word" id="word">Tisch</div>
+                <div class="pronunciation" id="pronunciation">
+                  德語發音：der Tisch
                 </div>
+
+                <button class="btn secondary" onclick="event.stopPropagation(); speakVocabWord();">
+                  🔊 發音
+                </button>
+              </div>
+
+              <div class="tap-hint">
+                點擊字卡翻面查看中文、英文、詞性與例句。
               </div>
             </div>
           </div>
@@ -643,6 +740,10 @@
                     <strong>English meaning</strong>
                     <span id="backEnglish">table</span>
                   </div>
+                </div>
+
+                <div class="back-type-box" id="backTypeNote">
+                  詞性：Nomen / 名詞 / noun
                 </div>
 
                 <div class="example">
@@ -676,10 +777,27 @@
         <button class="btn gray" onclick="nextCard()">下一張</button>
       </div>
 
+      <div class="speech-settings">
+        <div class="speech-settings-title">語速設定</div>
+        <div class="speech-control">
+          <label for="speechRate">發音速度</label>
+          <input
+            id="speechRate"
+            type="range"
+            min="0.5"
+            max="1.5"
+            step="0.05"
+            value="0.85"
+            oninput="updateSpeechRateLabel()"
+          />
+          <div class="rate-value" id="speechRateValue">0.85x</div>
+        </div>
+      </div>
+
       <div class="counter" id="counter">第 1 / 28 張</div>
     </main>
 
-    <!-- 數字練習板塊 -->
+    <!-- 測驗模式 -->
     <main class="practice-section hidden" id="practiceSection">
       <div class="practice-grid">
         <button class="practice-card active" id="modeNumber" onclick="switchPracticeMode('number')">
@@ -728,6 +846,23 @@
         <button class="btn secondary" onclick="speakPractice()">🔊 德語發音</button>
         <button class="btn" onclick="generatePractice()">產生新的題目</button>
       </div>
+
+      <div class="speech-settings">
+        <div class="speech-settings-title">語速設定</div>
+        <div class="speech-control">
+          <label for="speechRatePractice">發音速度</label>
+          <input
+            id="speechRatePractice"
+            type="range"
+            min="0.5"
+            max="1.5"
+            step="0.05"
+            value="0.85"
+            oninput="syncSpeechRateFromPractice()"
+          />
+          <div class="rate-value" id="speechRateValuePractice">0.85x</div>
+        </div>
+      </div>
     </main>
 
     <section class="list-preview" id="previewSection">
@@ -743,7 +878,9 @@
   <script>
     const vocabCards = [
       {
-        word: "der Tisch",
+        displayWord: "Tisch",
+        fullWord: "der Tisch",
+        article: "der",
         type: "Nomen / 名詞 / noun",
         chinese: "桌子",
         english: "table",
@@ -752,7 +889,9 @@
         exampleEn: "The table is big."
       },
       {
-        word: "der Stuhl",
+        displayWord: "Stuhl",
+        fullWord: "der Stuhl",
+        article: "der",
         type: "Nomen / 名詞 / noun",
         chinese: "椅子",
         english: "chair",
@@ -761,7 +900,9 @@
         exampleEn: "The chair is comfortable."
       },
       {
-        word: "der Computer",
+        displayWord: "Computer",
+        fullWord: "der Computer",
+        article: "der",
         type: "Nomen / 名詞 / noun",
         chinese: "電腦",
         english: "computer",
@@ -770,7 +911,9 @@
         exampleEn: "The computer is new."
       },
       {
-        word: "die Maus",
+        displayWord: "Maus",
+        fullWord: "die Maus",
+        article: "die",
         type: "Nomen / 名詞 / noun",
         chinese: "滑鼠；老鼠",
         english: "mouse",
@@ -779,7 +922,9 @@
         exampleEn: "The mouse is next to the computer."
       },
       {
-        word: "das Wasser",
+        displayWord: "Wasser",
+        fullWord: "das Wasser",
+        article: "das",
         type: "Nomen / 名詞 / noun",
         chinese: "水",
         english: "water",
@@ -788,7 +933,9 @@
         exampleEn: "I drink water."
       },
       {
-        word: "der Lehrer",
+        displayWord: "Lehrer",
+        fullWord: "der Lehrer",
+        article: "der",
         type: "Nomen / 名詞 / noun",
         chinese: "老師，男老師",
         english: "teacher, male teacher",
@@ -797,7 +944,9 @@
         exampleEn: "The teacher explains the word."
       },
       {
-        word: "die Lehrerin",
+        displayWord: "Lehrerin",
+        fullWord: "die Lehrerin",
+        article: "die",
         type: "Nomen / 名詞 / noun",
         chinese: "老師，女老師",
         english: "teacher, female teacher",
@@ -806,7 +955,9 @@
         exampleEn: "The teacher speaks German."
       },
       {
-        word: "der Schüler",
+        displayWord: "Schüler",
+        fullWord: "der Schüler",
+        article: "der",
         type: "Nomen / 名詞 / noun",
         chinese: "學生，男學生",
         english: "student, male student",
@@ -815,7 +966,9 @@
         exampleEn: "The student learns German."
       },
       {
-        word: "die Schülerin",
+        displayWord: "Schülerin",
+        fullWord: "die Schülerin",
+        article: "die",
         type: "Nomen / 名詞 / noun",
         chinese: "學生，女學生",
         english: "student, female student",
@@ -824,7 +977,9 @@
         exampleEn: "The student writes a sentence."
       },
       {
-        word: "danke",
+        displayWord: "danke",
+        fullWord: "danke",
+        article: "Interjektion",
         type: "Interjektion / 感嘆詞 / interjection",
         chinese: "謝謝",
         english: "thank you",
@@ -833,7 +988,9 @@
         exampleEn: "Thank you for your help."
       },
       {
-        word: "die Farbe",
+        displayWord: "Farbe",
+        fullWord: "die Farbe",
+        article: "die",
         type: "Nomen / 名詞 / noun",
         chinese: "顏色",
         english: "color",
@@ -842,7 +999,9 @@
         exampleEn: "Which color do you like?"
       },
       {
-        word: "die Band",
+        displayWord: "Band",
+        fullWord: "die Band",
+        article: "die",
         type: "Nomen / 名詞 / noun",
         chinese: "樂隊",
         english: "band",
@@ -851,7 +1010,9 @@
         exampleEn: "The band is playing tonight."
       },
       {
-        word: "der Bass",
+        displayWord: "Bass",
+        fullWord: "der Bass",
+        article: "der",
         type: "Nomen / 名詞 / noun",
         chinese: "貝斯；低音",
         english: "bass",
@@ -860,7 +1021,9 @@
         exampleEn: "He plays bass in a band."
       },
       {
-        word: "das Essen",
+        displayWord: "Essen",
+        fullWord: "das Essen",
+        article: "das",
         type: "Nomen / 名詞 / noun",
         chinese: "食物；餐點",
         english: "food, meal",
@@ -869,7 +1032,9 @@
         exampleEn: "The food tastes good."
       },
       {
-        word: "die Nudeln",
+        displayWord: "Nudeln",
+        fullWord: "die Nudeln",
+        article: "die Pl.",
         type: "Nomen Plural / 複數名詞 / plural noun",
         chinese: "麵條",
         english: "noodles",
@@ -878,7 +1043,9 @@
         exampleEn: "I like eating noodles."
       },
       {
-        word: "glücklich",
+        displayWord: "glücklich",
+        fullWord: "glücklich",
+        article: "Adjektiv",
         type: "Adjektiv / 形容詞 / adjective",
         chinese: "開心的；幸福的",
         english: "happy",
@@ -887,7 +1054,9 @@
         exampleEn: "I am happy today."
       },
       {
-        word: "traurig",
+        displayWord: "traurig",
+        fullWord: "traurig",
+        article: "Adjektiv",
         type: "Adjektiv / 形容詞 / adjective",
         chinese: "傷心的；難過的",
         english: "sad",
@@ -896,7 +1065,9 @@
         exampleEn: "She is sad."
       },
       {
-        word: "das Buch",
+        displayWord: "Buch",
+        fullWord: "das Buch",
+        article: "das",
         type: "Nomen / 名詞 / noun",
         chinese: "書本；書",
         english: "book",
@@ -905,7 +1076,9 @@
         exampleEn: "The book is on the table."
       },
       {
-        word: "stehen",
+        displayWord: "stehen",
+        fullWord: "stehen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "站立；站著",
         english: "to stand",
@@ -914,7 +1087,9 @@
         exampleEn: "I am standing next to the chair."
       },
       {
-        word: "schlafen",
+        displayWord: "schlafen",
+        fullWord: "schlafen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "睡覺",
         english: "to sleep",
@@ -923,7 +1098,9 @@
         exampleEn: "The child is sleeping in the bed."
       },
       {
-        word: "gehen",
+        displayWord: "gehen",
+        fullWord: "gehen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "走；去；走路",
         english: "to go, to walk",
@@ -932,7 +1109,9 @@
         exampleEn: "We walk to school."
       },
       {
-        word: "sich setzen",
+        displayWord: "sich setzen",
+        fullWord: "sich setzen",
+        article: "Verb",
         type: "Reflexives Verb / 反身動詞 / reflexive verb",
         chinese: "坐下",
         english: "to sit down",
@@ -941,7 +1120,9 @@
         exampleEn: "I sit down on the chair."
       },
       {
-        word: "essen",
+        displayWord: "essen",
+        fullWord: "essen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "吃",
         english: "to eat",
@@ -950,7 +1131,9 @@
         exampleEn: "I eat bread."
       },
       {
-        word: "trinken",
+        displayWord: "trinken",
+        fullWord: "trinken",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "喝",
         english: "to drink",
@@ -959,7 +1142,9 @@
         exampleEn: "I drink water."
       },
       {
-        word: "kommen",
+        displayWord: "kommen",
+        fullWord: "kommen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "來",
         english: "to come",
@@ -968,7 +1153,9 @@
         exampleEn: "I come from Taiwan."
       },
       {
-        word: "lernen",
+        displayWord: "lernen",
+        fullWord: "lernen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "學習",
         english: "to learn",
@@ -977,7 +1164,9 @@
         exampleEn: "I learn German."
       },
       {
-        word: "sprechen",
+        displayWord: "sprechen",
+        fullWord: "sprechen",
+        article: "Verb",
         type: "Verb / 動詞 / verb",
         chinese: "說；說話",
         english: "to speak",
@@ -986,7 +1175,9 @@
         exampleEn: "I speak German."
       },
       {
-        word: "schön",
+        displayWord: "schön",
+        fullWord: "schön",
+        article: "Adjektiv",
         type: "Adjektiv / 形容詞 / adjective",
         chinese: "漂亮的；美好的",
         english: "beautiful, nice",
@@ -1016,6 +1207,7 @@
     let currentPracticeMode = "number";
     let currentPracticeSpeakText = "zweiundvierzig";
     let isFlipped = false;
+    let speechRate = 0.85;
 
     function switchMainSection(section) {
       currentMainSection = section;
@@ -1047,7 +1239,7 @@
         vocabSection.classList.add("hidden");
         previewSection.classList.add("hidden");
 
-        sectionName.textContent = "數字練習板塊";
+        sectionName.textContent = "測驗模式";
         sectionInfo.textContent = "3 種功能";
         generatePractice();
       }
@@ -1071,17 +1263,16 @@
       document.getElementById("frontIndexBadge").textContent = positionText;
       document.getElementById("backIndexBadge").textContent = positionText;
 
-      document.getElementById("frontTypeBadge").textContent = card.type;
-      document.getElementById("backTypeBadge").textContent = card.type;
+      document.getElementById("frontArticleBadge").textContent = card.article;
+      document.getElementById("backTypeBadge").textContent = card.article;
 
-      document.getElementById("word").textContent = card.word;
-      document.getElementById("backWord").textContent = card.word;
-      document.getElementById("pronunciation").textContent = "德語發音：" + card.word;
+      document.getElementById("word").textContent = card.displayWord;
+      document.getElementById("backWord").textContent = card.fullWord;
+      document.getElementById("pronunciation").textContent = "德語發音：" + card.fullWord;
 
-      document.getElementById("frontChinese").textContent = card.chinese;
-      document.getElementById("frontEnglish").textContent = card.english;
       document.getElementById("backChinese").textContent = card.chinese;
       document.getElementById("backEnglish").textContent = card.english;
+      document.getElementById("backTypeNote").textContent = "詞性：" + card.type;
 
       document.getElementById("exampleDe").textContent = card.exampleDe;
       document.getElementById("exampleZh").textContent = card.exampleZh;
@@ -1130,7 +1321,7 @@
       vocabCards.forEach((card, index) => {
         const chip = document.createElement("button");
         chip.className = "chip";
-        chip.textContent = card.word;
+        chip.textContent = card.fullWord;
         chip.onclick = function () {
           currentVocabIndex = index;
           resetFlip();
@@ -1138,6 +1329,38 @@
         };
         chips.appendChild(chip);
       });
+    }
+
+    function updateSpeechRateLabel() {
+      const rateInput = document.getElementById("speechRate");
+      speechRate = parseFloat(rateInput.value);
+
+      document.getElementById("speechRateValue").textContent =
+        speechRate.toFixed(2) + "x";
+
+      const practiceInput = document.getElementById("speechRatePractice");
+      const practiceLabel = document.getElementById("speechRateValuePractice");
+
+      if (practiceInput && practiceLabel) {
+        practiceInput.value = speechRate;
+        practiceLabel.textContent = speechRate.toFixed(2) + "x";
+      }
+    }
+
+    function syncSpeechRateFromPractice() {
+      const practiceInput = document.getElementById("speechRatePractice");
+      speechRate = parseFloat(practiceInput.value);
+
+      document.getElementById("speechRateValuePractice").textContent =
+        speechRate.toFixed(2) + "x";
+
+      const vocabInput = document.getElementById("speechRate");
+      const vocabLabel = document.getElementById("speechRateValue");
+
+      if (vocabInput && vocabLabel) {
+        vocabInput.value = speechRate;
+        vocabLabel.textContent = speechRate.toFixed(2) + "x";
+      }
     }
 
     function switchPracticeMode(mode) {
@@ -1365,7 +1588,7 @@
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "de-DE";
-      utterance.rate = 0.85;
+      utterance.rate = speechRate;
       utterance.pitch = 1;
 
       window.speechSynthesis.speak(utterance);
@@ -1373,7 +1596,7 @@
 
     function speakVocabWord() {
       const card = vocabCards[currentVocabIndex];
-      speak(card.word);
+      speak(card.fullWord);
     }
 
     function speakVocabExample() {
@@ -1386,6 +1609,7 @@
     }
 
     renderVocabCard();
+    updateSpeechRateLabel();
   </script>
 </body>
 </html>
