@@ -3,23 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>德語單字與數字練習</title>
+  <title>德語單字翻頁字卡</title>
   <style>
     :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #10b981;
-      --secondary-dark: #059669;
-      --orange: #f97316;
-      --orange-dark: #ea580c;
-      --purple: #8b5cf6;
-      --purple-dark: #7c3aed;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #dbe3ef;
-      --shadow: rgba(15, 23, 42, 0.12);
+      --bg-1: #fff7ed;
+      --bg-2: #ffedd5;
+      --bg-3: #fde68a;
+      --card: #fffaf0;
+      --card-2: #ffffff;
+      --primary: #ea580c;
+      --primary-dark: #c2410c;
+      --secondary: #f59e0b;
+      --secondary-dark: #d97706;
+      --brown: #7c2d12;
+      --text: #2f1b0c;
+      --muted: #8a5a35;
+      --border: #fed7aa;
+      --soft: #fff7ed;
+      --green: #15803d;
+      --blue: #2563eb;
+      --shadow: rgba(124, 45, 18, 0.18);
     }
 
     * {
@@ -30,7 +33,10 @@
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC",
         "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(135deg, #eff6ff, #ecfdf5);
+      background:
+        radial-gradient(circle at top left, rgba(251, 146, 60, 0.28), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.28), transparent 34%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2), #fef3c7);
       color: var(--text);
       min-height: 100vh;
       padding: 18px;
@@ -38,7 +44,7 @@
 
     .app {
       width: 100%;
-      max-width: 820px;
+      max-width: 880px;
       margin: 0 auto;
     }
 
@@ -48,93 +54,162 @@
     }
 
     header h1 {
-      margin: 10px 0 6px;
+      margin: 10px 0 8px;
       font-size: 2rem;
-      color: #111827;
+      color: var(--brown);
+      letter-spacing: 0.03em;
     }
 
     header p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.96rem;
+      line-height: 1.7;
     }
 
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
       margin: 18px 0;
     }
 
     .tab-btn {
       border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--text);
-      padding: 12px 10px;
-      border-radius: 14px;
+      background: rgba(255, 250, 240, 0.9);
+      color: var(--brown);
+      padding: 13px 10px;
+      border-radius: 999px;
       font-size: 1rem;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 4px 12px var(--shadow);
+      box-shadow: 0 6px 16px var(--shadow);
     }
 
     .tab-btn.active {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
-      border-color: var(--primary);
+      border-color: transparent;
     }
 
     .section-title {
       margin: 12px 0;
-      padding: 12px 14px;
-      background: rgba(255, 255, 255, 0.78);
+      padding: 12px 15px;
+      background: rgba(255, 250, 240, 0.85);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      font-weight: 900;
-      color: #111827;
+      border-radius: 18px;
+      font-weight: 950;
+      color: var(--brown);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
+      box-shadow: 0 4px 14px rgba(124, 45, 18, 0.08);
     }
 
     .section-title span {
       color: var(--muted);
       font-size: 0.88rem;
-      font-weight: 600;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 24px 20px;
-      box-shadow: 0 12px 32px var(--shadow);
-      border: 1px solid var(--border);
-      min-height: 420px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #e0f2fe;
-      color: #0369a1;
-      font-size: 0.85rem;
-      font-weight: 800;
-      margin-bottom: 12px;
+      font-weight: 700;
     }
 
     .hidden {
       display: none !important;
     }
 
-    .word {
-      font-size: 2.5rem;
+    /* 翻頁字卡 */
+    .flashcard-wrap {
+      perspective: 1200px;
+    }
+
+    .flashcard {
+      position: relative;
+      width: 100%;
+      min-height: 500px;
+      transform-style: preserve-3d;
+      transition: transform 0.65s ease;
+    }
+
+    .flashcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+      position: absolute;
+      width: 100%;
+      min-height: 500px;
+      top: 0;
+      left: 0;
+      backface-visibility: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,247,237,0.96));
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      box-shadow: 0 18px 42px var(--shadow);
+      padding: 26px 22px;
+      overflow: hidden;
+    }
+
+    .flashcard-front::before,
+    .flashcard-back::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(251, 146, 60, 0.12);
+      top: -80px;
+      right: -70px;
+      z-index: 0;
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(254,243,199,0.95));
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #ffedd5;
+      color: #9a3412;
+      font-size: 0.86rem;
       font-weight: 900;
+      border: 1px solid #fed7aa;
+    }
+
+    .badge.type {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    .word {
+      font-size: 3rem;
+      font-weight: 950;
       text-align: center;
-      margin: 16px 0 8px;
-      color: #111827;
+      margin: 16px 0 10px;
+      color: var(--brown);
       word-break: break-word;
     }
 
@@ -142,48 +217,72 @@
       text-align: center;
       color: var(--muted);
       font-size: 1rem;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .meaning-box {
+    .tap-hint {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    .translation-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin: 12px 0;
     }
 
-    .meaning {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 1.05rem;
-      line-height: 1.5;
+    .translation-box {
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 13px;
+      line-height: 1.6;
     }
 
-    .meaning strong {
-      color: #374151;
+    .translation-box strong {
+      display: block;
+      color: var(--brown);
+      margin-bottom: 4px;
+    }
+
+    .translation-box span {
+      color: #3f2a1a;
+      font-size: 1.05rem;
+      font-weight: 750;
     }
 
     .example {
       margin-top: 16px;
-      padding: 14px;
-      border-radius: 16px;
+      padding: 15px;
+      border-radius: 20px;
       background: #fff7ed;
       border: 1px solid #fed7aa;
     }
 
-    .example .de {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: #9a3412;
-      margin-bottom: 8px;
+    .example-title {
+      font-weight: 950;
+      color: var(--brown);
+      margin-bottom: 10px;
     }
 
-    .example .zh {
-      color: #7c2d12;
-      font-size: 0.98rem;
+    .example .de {
+      font-size: 1.18rem;
+      font-weight: 900;
+      color: #9a3412;
+      margin-bottom: 10px;
       line-height: 1.5;
+    }
+
+    .example .zh,
+    .example .en {
+      color: #6b3f1d;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      margin-top: 6px;
     }
 
     .speak-row {
@@ -200,13 +299,13 @@
     .btn {
       border: none;
       padding: 12px 14px;
-      border-radius: 14px;
+      border-radius: 15px;
       font-size: 1rem;
-      font-weight: 900;
+      font-weight: 950;
       cursor: pointer;
       color: white;
       background: var(--primary);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      box-shadow: 0 5px 14px rgba(234, 88, 12, 0.25);
     }
 
     .btn:hover {
@@ -215,7 +314,7 @@
 
     .btn.secondary {
       background: var(--secondary);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 5px 14px rgba(245, 158, 11, 0.25);
     }
 
     .btn.secondary:hover {
@@ -223,72 +322,71 @@
     }
 
     .btn.gray {
-      background: #64748b;
-      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.22);
+      background: #a16207;
+      box-shadow: 0 5px 14px rgba(161, 98, 7, 0.22);
     }
 
-    .btn.orange {
-      background: var(--orange);
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
-    }
-
-    .btn.orange:hover {
-      background: var(--orange-dark);
-    }
-
-    .btn.purple {
-      background: var(--purple);
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
-    }
-
-    .btn.purple:hover {
-      background: var(--purple-dark);
+    .btn.green {
+      background: #16a34a;
+      box-shadow: 0 5px 14px rgba(22, 163, 74, 0.22);
     }
 
     .controls {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 18px;
     }
 
     .counter {
       text-align: center;
       color: var(--muted);
       font-size: 0.95rem;
-      margin-top: 12px;
+      margin-top: 13px;
+      font-weight: 700;
+    }
+
+    /* 數字練習 */
+    .practice-section {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.96));
+      border-radius: 30px;
+      padding: 24px 20px;
+      box-shadow: 0 18px 42px var(--shadow);
+      border: 1px solid var(--border);
+      min-height: 440px;
     }
 
     .practice-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 10px;
-      margin: 12px 0 18px;
+      margin: 0 0 18px;
     }
 
     .practice-card {
       border: 2px solid transparent;
-      background: #f8fafc;
+      background: #fff7ed;
       border-radius: 18px;
       padding: 14px 10px;
       cursor: pointer;
       text-align: center;
-      font-weight: 900;
-      color: #334155;
+      font-weight: 950;
+      color: #7c2d12;
     }
 
     .practice-card small {
       display: block;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
       margin-top: 5px;
       line-height: 1.4;
     }
 
     .practice-card.active {
       border-color: var(--primary);
-      background: #eff6ff;
-      color: #1d4ed8;
+      background: #ffedd5;
+      color: var(--primary-dark);
     }
 
     .big-value {
@@ -296,15 +394,15 @@
       font-weight: 950;
       text-align: center;
       margin: 22px 0 8px;
-      color: #111827;
+      color: var(--brown);
       word-break: break-word;
     }
 
     .german-answer {
       text-align: center;
       font-size: 1.55rem;
-      font-weight: 900;
-      color: #065f46;
+      font-weight: 950;
+      color: var(--green);
       margin: 12px 0;
       line-height: 1.4;
     }
@@ -322,13 +420,13 @@
       padding: 14px;
       border: 1px solid var(--border);
       border-radius: 18px;
-      background: #f9fafb;
+      background: rgba(255, 247, 237, 0.82);
     }
 
     .option-title {
-      font-weight: 900;
+      font-weight: 950;
       margin-bottom: 10px;
-      color: #111827;
+      color: var(--brown);
     }
 
     .range-row {
@@ -341,36 +439,40 @@
     label {
       display: block;
       font-size: 0.88rem;
-      font-weight: 800;
-      color: #374151;
+      font-weight: 900;
+      color: #7c2d12;
       margin-bottom: 6px;
     }
 
     input {
       width: 100%;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #fdba74;
       border-radius: 12px;
       padding: 11px 12px;
       font-size: 1rem;
       outline: none;
+      background: #fffaf0;
+      color: var(--text);
     }
 
     input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
     }
 
     .list-preview {
       margin-top: 18px;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 250, 240, 0.82);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 14px;
+      border-radius: 22px;
+      padding: 15px;
+      box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
     }
 
     .list-preview h3 {
       margin: 0 0 10px;
       font-size: 1.05rem;
+      color: var(--brown);
     }
 
     .chips {
@@ -380,18 +482,19 @@
     }
 
     .chip {
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
-      color: #334155;
+      border: 1px solid #fdba74;
+      background: #fff7ed;
+      color: #7c2d12;
       border-radius: 999px;
       padding: 7px 10px;
       font-size: 0.9rem;
       cursor: pointer;
+      font-weight: 800;
     }
 
     .chip:hover {
-      background: #eff6ff;
-      border-color: #93c5fd;
+      background: #ffedd5;
+      border-color: #fb923c;
     }
 
     footer {
@@ -401,7 +504,7 @@
       margin: 18px 0 4px;
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 680px) {
       body {
         padding: 12px;
       }
@@ -411,6 +514,23 @@
       }
 
       .tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .flashcard,
+      .flashcard-face {
+        min-height: 560px;
+      }
+
+      .card-content {
+        min-height: 500px;
+      }
+
+      .word {
+        font-size: 2.35rem;
+      }
+
+      .translation-grid {
         grid-template-columns: 1fr;
       }
 
@@ -430,10 +550,6 @@
         grid-template-columns: 1fr;
       }
 
-      .word {
-        font-size: 2.1rem;
-      }
-
       .big-value {
         font-size: 2.5rem;
       }
@@ -442,7 +558,8 @@
         font-size: 1.25rem;
       }
 
-      .card {
+      .flashcard-face,
+      .practice-section {
         padding: 20px 15px;
       }
     }
@@ -451,10 +568,10 @@
 <body>
   <div class="app">
     <header>
-      <h1>德語單字與數字練習</h1>
+      <h1>德語單字翻頁字卡</h1>
       <p>
-        分成「德語單字」與「數字練習」兩個板塊。<br />
-        數字練習包含：隨機數字、隨機年份、隨機月份。
+        點擊字卡可翻面查看中英對照與例句。<br />
+        也可切換到數字練習：隨機數字、年份、月份。
       </p>
     </header>
 
@@ -469,52 +586,101 @@
 
     <div class="section-title">
       <div id="sectionName">德語單字板塊</div>
-      <span id="sectionInfo">共 8 張</span>
+      <span id="sectionInfo">共 28 張</span>
     </div>
 
     <!-- 德語單字板塊 -->
-    <main class="card" id="vocabSection">
-      <div>
-        <div class="badge" id="typeBadge">Verb</div>
+    <main id="vocabSection">
+      <div class="flashcard-wrap">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="flashcard-face flashcard-front">
+            <div class="card-content">
+              <div>
+                <div class="badge-row">
+                  <span class="badge" id="frontIndexBadge">1 / 28</span>
+                  <span class="badge type" id="frontTypeBadge">Nomen</span>
+                </div>
 
-        <div class="word" id="word">essen</div>
-        <div class="pronunciation" id="pronunciation">德語發音：essen</div>
+                <div class="word" id="word">der Tisch</div>
+                <div class="pronunciation" id="pronunciation">德語發音：der Tisch</div>
 
-        <div class="meaning-box">
-          <div class="meaning">
-            <strong>中文：</strong>
-            <span id="chinese">吃</span>
+                <div class="translation-grid">
+                  <div class="translation-box">
+                    <strong>中文</strong>
+                    <span id="frontChinese">桌子</span>
+                  </div>
+                  <div class="translation-box">
+                    <strong>English</strong>
+                    <span id="frontEnglish">table</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="tap-hint">
+                  點擊字卡翻面，查看例句與完整中英對照。
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="meaning">
-            <strong>英文：</strong>
-            <span id="english">to eat</span>
-          </div>
-        </div>
 
-        <div class="example">
-          <div class="de" id="exampleDe">Ich esse Brot.</div>
-          <div class="zh" id="exampleZh">我吃麵包。</div>
+          <div class="flashcard-face flashcard-back">
+            <div class="card-content">
+              <div>
+                <div class="badge-row">
+                  <span class="badge" id="backIndexBadge">1 / 28</span>
+                  <span class="badge type" id="backTypeBadge">Nomen</span>
+                </div>
+
+                <div class="word" id="backWord">der Tisch</div>
+
+                <div class="translation-grid">
+                  <div class="translation-box">
+                    <strong>中文意思</strong>
+                    <span id="backChinese">桌子</span>
+                  </div>
+                  <div class="translation-box">
+                    <strong>English meaning</strong>
+                    <span id="backEnglish">table</span>
+                  </div>
+                </div>
+
+                <div class="example">
+                  <div class="example-title">例句 Example</div>
+                  <div class="de" id="exampleDe">Der Tisch ist groß.</div>
+                  <div class="zh" id="exampleZh">這張桌子很大。</div>
+                  <div class="en" id="exampleEn">The table is big.</div>
+                </div>
+              </div>
+
+              <div class="tap-hint">
+                再點一次字卡可翻回正面。
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div class="speak-row">
-          <button class="btn secondary" onclick="speakVocabWord()">🔊 單字發音</button>
-          <button class="btn secondary" onclick="speakVocabExample()">🔊 例句發音</button>
-        </div>
-
-        <div class="controls">
-          <button class="btn gray" onclick="prevCard()">上一張</button>
-          <button class="btn" onclick="randomCard()">隨機單字</button>
-          <button class="btn gray" onclick="nextCard()">下一張</button>
-        </div>
-
-        <div class="counter" id="counter">第 1 / 8 張</div>
+      <div class="speak-row">
+        <button class="btn secondary" onclick="event.stopPropagation(); speakVocabWord();">
+          🔊 單字發音
+        </button>
+        <button class="btn secondary" onclick="event.stopPropagation(); speakVocabExample();">
+          🔊 例句發音
+        </button>
       </div>
+
+      <div class="controls">
+        <button class="btn gray" onclick="prevCard()">上一張</button>
+        <button class="btn green" onclick="randomCard()">隨機單字</button>
+        <button class="btn gray" onclick="nextCard()">下一張</button>
+      </div>
+
+      <div class="counter" id="counter">第 1 / 28 張</div>
     </main>
 
     <!-- 數字練習板塊 -->
-    <main class="card hidden" id="practiceSection">
+    <main class="practice-section hidden" id="practiceSection">
       <div class="practice-grid">
         <button class="practice-card active" id="modeNumber" onclick="switchPracticeMode('number')">
           隨機數字
@@ -560,7 +726,7 @@
 
       <div class="speak-row">
         <button class="btn secondary" onclick="speakPractice()">🔊 德語發音</button>
-        <button class="btn orange" onclick="generatePractice()">產生新的題目</button>
+        <button class="btn" onclick="generatePractice()">產生新的題目</button>
       </div>
     </main>
 
@@ -577,68 +743,256 @@
   <script>
     const vocabCards = [
       {
-        word: "essen",
-        type: "Verb",
-        chinese: "吃",
-        english: "to eat",
-        exampleDe: "Ich esse Brot.",
-        exampleZh: "我吃麵包。"
+        word: "der Tisch",
+        type: "Nomen / 名詞 / noun",
+        chinese: "桌子",
+        english: "table",
+        exampleDe: "Der Tisch ist groß.",
+        exampleZh: "這張桌子很大。",
+        exampleEn: "The table is big."
       },
       {
-        word: "trinken",
-        type: "Verb",
-        chinese: "喝",
-        english: "to drink",
+        word: "der Stuhl",
+        type: "Nomen / 名詞 / noun",
+        chinese: "椅子",
+        english: "chair",
+        exampleDe: "Der Stuhl ist bequem.",
+        exampleZh: "這張椅子很舒服。",
+        exampleEn: "The chair is comfortable."
+      },
+      {
+        word: "der Computer",
+        type: "Nomen / 名詞 / noun",
+        chinese: "電腦",
+        english: "computer",
+        exampleDe: "Der Computer ist neu.",
+        exampleZh: "這台電腦是新的。",
+        exampleEn: "The computer is new."
+      },
+      {
+        word: "die Maus",
+        type: "Nomen / 名詞 / noun",
+        chinese: "滑鼠；老鼠",
+        english: "mouse",
+        exampleDe: "Die Maus liegt neben dem Computer.",
+        exampleZh: "滑鼠在電腦旁邊。",
+        exampleEn: "The mouse is next to the computer."
+      },
+      {
+        word: "das Wasser",
+        type: "Nomen / 名詞 / noun",
+        chinese: "水",
+        english: "water",
         exampleDe: "Ich trinke Wasser.",
-        exampleZh: "我喝水。"
+        exampleZh: "我喝水。",
+        exampleEn: "I drink water."
       },
       {
-        word: "gehen",
-        type: "Verb",
-        chinese: "走；去",
-        english: "to go",
-        exampleDe: "Ich gehe zur Schule.",
-        exampleZh: "我去學校。"
+        word: "der Lehrer",
+        type: "Nomen / 名詞 / noun",
+        chinese: "老師，男老師",
+        english: "teacher, male teacher",
+        exampleDe: "Der Lehrer erklärt das Wort.",
+        exampleZh: "老師解釋這個單字。",
+        exampleEn: "The teacher explains the word."
       },
       {
-        word: "kommen",
-        type: "Verb",
-        chinese: "來",
-        english: "to come",
-        exampleDe: "Ich komme aus Taiwan.",
-        exampleZh: "我來自台灣。"
+        word: "die Lehrerin",
+        type: "Nomen / 名詞 / noun",
+        chinese: "老師，女老師",
+        english: "teacher, female teacher",
+        exampleDe: "Die Lehrerin spricht Deutsch.",
+        exampleZh: "老師說德語。",
+        exampleEn: "The teacher speaks German."
       },
       {
-        word: "lernen",
-        type: "Verb",
-        chinese: "學習",
-        english: "to learn",
-        exampleDe: "Ich lerne Deutsch.",
-        exampleZh: "我學德文。"
+        word: "der Schüler",
+        type: "Nomen / 名詞 / noun",
+        chinese: "學生，男學生",
+        english: "student, male student",
+        exampleDe: "Der Schüler lernt Deutsch.",
+        exampleZh: "這位學生學德語。",
+        exampleEn: "The student learns German."
       },
       {
-        word: "sprechen",
-        type: "Verb",
-        chinese: "說",
-        english: "to speak",
-        exampleDe: "Ich spreche Deutsch.",
-        exampleZh: "我說德文。"
+        word: "die Schülerin",
+        type: "Nomen / 名詞 / noun",
+        chinese: "學生，女學生",
+        english: "student, female student",
+        exampleDe: "Die Schülerin schreibt einen Satz.",
+        exampleZh: "這位學生寫一個句子。",
+        exampleEn: "The student writes a sentence."
+      },
+      {
+        word: "danke",
+        type: "Interjektion / 感嘆詞 / interjection",
+        chinese: "謝謝",
+        english: "thank you",
+        exampleDe: "Danke für deine Hilfe.",
+        exampleZh: "謝謝你的幫助。",
+        exampleEn: "Thank you for your help."
+      },
+      {
+        word: "die Farbe",
+        type: "Nomen / 名詞 / noun",
+        chinese: "顏色",
+        english: "color",
+        exampleDe: "Welche Farbe magst du?",
+        exampleZh: "你喜歡哪一種顏色？",
+        exampleEn: "Which color do you like?"
+      },
+      {
+        word: "die Band",
+        type: "Nomen / 名詞 / noun",
+        chinese: "樂隊",
+        english: "band",
+        exampleDe: "Die Band spielt heute Abend.",
+        exampleZh: "這個樂隊今晚演出。",
+        exampleEn: "The band is playing tonight."
+      },
+      {
+        word: "der Bass",
+        type: "Nomen / 名詞 / noun",
+        chinese: "貝斯；低音",
+        english: "bass",
+        exampleDe: "Er spielt Bass in einer Band.",
+        exampleZh: "他在一個樂隊裡彈貝斯。",
+        exampleEn: "He plays bass in a band."
+      },
+      {
+        word: "das Essen",
+        type: "Nomen / 名詞 / noun",
+        chinese: "食物；餐點",
+        english: "food, meal",
+        exampleDe: "Das Essen schmeckt gut.",
+        exampleZh: "這個食物很好吃。",
+        exampleEn: "The food tastes good."
+      },
+      {
+        word: "die Nudeln",
+        type: "Nomen Plural / 複數名詞 / plural noun",
+        chinese: "麵條",
+        english: "noodles",
+        exampleDe: "Ich esse gern Nudeln.",
+        exampleZh: "我喜歡吃麵條。",
+        exampleEn: "I like eating noodles."
+      },
+      {
+        word: "glücklich",
+        type: "Adjektiv / 形容詞 / adjective",
+        chinese: "開心的；幸福的",
+        english: "happy",
+        exampleDe: "Ich bin heute glücklich.",
+        exampleZh: "我今天很開心。",
+        exampleEn: "I am happy today."
+      },
+      {
+        word: "traurig",
+        type: "Adjektiv / 形容詞 / adjective",
+        chinese: "傷心的；難過的",
+        english: "sad",
+        exampleDe: "Sie ist traurig.",
+        exampleZh: "她很傷心。",
+        exampleEn: "She is sad."
       },
       {
         word: "das Buch",
-        type: "Nomen",
-        chinese: "書",
+        type: "Nomen / 名詞 / noun",
+        chinese: "書本；書",
         english: "book",
-        exampleDe: "Das Buch ist interessant.",
-        exampleZh: "這本書很有趣。"
+        exampleDe: "Das Buch liegt auf dem Tisch.",
+        exampleZh: "這本書在桌子上。",
+        exampleEn: "The book is on the table."
+      },
+      {
+        word: "stehen",
+        type: "Verb / 動詞 / verb",
+        chinese: "站立；站著",
+        english: "to stand",
+        exampleDe: "Ich stehe neben dem Stuhl.",
+        exampleZh: "我站在椅子旁邊。",
+        exampleEn: "I am standing next to the chair."
+      },
+      {
+        word: "schlafen",
+        type: "Verb / 動詞 / verb",
+        chinese: "睡覺",
+        english: "to sleep",
+        exampleDe: "Das Kind schläft im Bett.",
+        exampleZh: "孩子在床上睡覺。",
+        exampleEn: "The child is sleeping in the bed."
+      },
+      {
+        word: "gehen",
+        type: "Verb / 動詞 / verb",
+        chinese: "走；去；走路",
+        english: "to go, to walk",
+        exampleDe: "Wir gehen zur Schule.",
+        exampleZh: "我們走路去學校。",
+        exampleEn: "We walk to school."
+      },
+      {
+        word: "sich setzen",
+        type: "Reflexives Verb / 反身動詞 / reflexive verb",
+        chinese: "坐下",
+        english: "to sit down",
+        exampleDe: "Ich setze mich auf den Stuhl.",
+        exampleZh: "我坐到椅子上。",
+        exampleEn: "I sit down on the chair."
+      },
+      {
+        word: "essen",
+        type: "Verb / 動詞 / verb",
+        chinese: "吃",
+        english: "to eat",
+        exampleDe: "Ich esse Brot.",
+        exampleZh: "我吃麵包。",
+        exampleEn: "I eat bread."
+      },
+      {
+        word: "trinken",
+        type: "Verb / 動詞 / verb",
+        chinese: "喝",
+        english: "to drink",
+        exampleDe: "Ich trinke Wasser.",
+        exampleZh: "我喝水。",
+        exampleEn: "I drink water."
+      },
+      {
+        word: "kommen",
+        type: "Verb / 動詞 / verb",
+        chinese: "來",
+        english: "to come",
+        exampleDe: "Ich komme aus Taiwan.",
+        exampleZh: "我來自台灣。",
+        exampleEn: "I come from Taiwan."
+      },
+      {
+        word: "lernen",
+        type: "Verb / 動詞 / verb",
+        chinese: "學習",
+        english: "to learn",
+        exampleDe: "Ich lerne Deutsch.",
+        exampleZh: "我學德語。",
+        exampleEn: "I learn German."
+      },
+      {
+        word: "sprechen",
+        type: "Verb / 動詞 / verb",
+        chinese: "說；說話",
+        english: "to speak",
+        exampleDe: "Ich spreche Deutsch.",
+        exampleZh: "我說德語。",
+        exampleEn: "I speak German."
       },
       {
         word: "schön",
-        type: "Adjektiv",
+        type: "Adjektiv / 形容詞 / adjective",
         chinese: "漂亮的；美好的",
-        english: "beautiful",
+        english: "beautiful, nice",
         exampleDe: "Das Wetter ist schön.",
-        exampleZh: "天氣很好。"
+        exampleZh: "天氣很好。",
+        exampleEn: "The weather is nice."
       }
     ];
 
@@ -661,6 +1015,7 @@
     let currentVocabIndex = 0;
     let currentPracticeMode = "number";
     let currentPracticeSpeakText = "zweiundvierzig";
+    let isFlipped = false;
 
     function switchMainSection(section) {
       currentMainSection = section;
@@ -698,30 +1053,58 @@
       }
     }
 
+    function flipCard() {
+      isFlipped = !isFlipped;
+      document.getElementById("flashcard").classList.toggle("flipped", isFlipped);
+    }
+
+    function resetFlip() {
+      isFlipped = false;
+      document.getElementById("flashcard").classList.remove("flipped");
+    }
+
     function renderVocabCard() {
       const card = vocabCards[currentVocabIndex];
+      const total = vocabCards.length;
+      const positionText = currentVocabIndex + 1 + " / " + total;
 
-      document.getElementById("typeBadge").textContent = card.type;
+      document.getElementById("frontIndexBadge").textContent = positionText;
+      document.getElementById("backIndexBadge").textContent = positionText;
+
+      document.getElementById("frontTypeBadge").textContent = card.type;
+      document.getElementById("backTypeBadge").textContent = card.type;
+
       document.getElementById("word").textContent = card.word;
+      document.getElementById("backWord").textContent = card.word;
       document.getElementById("pronunciation").textContent = "德語發音：" + card.word;
-      document.getElementById("chinese").textContent = card.chinese;
-      document.getElementById("english").textContent = card.english;
+
+      document.getElementById("frontChinese").textContent = card.chinese;
+      document.getElementById("frontEnglish").textContent = card.english;
+      document.getElementById("backChinese").textContent = card.chinese;
+      document.getElementById("backEnglish").textContent = card.english;
+
       document.getElementById("exampleDe").textContent = card.exampleDe;
       document.getElementById("exampleZh").textContent = card.exampleZh;
+      document.getElementById("exampleEn").textContent = card.exampleEn;
+
       document.getElementById("counter").textContent =
-        "第 " + (currentVocabIndex + 1) + " / " + vocabCards.length + " 張";
+        "第 " + (currentVocabIndex + 1) + " / " + total + " 張";
+
+      document.getElementById("sectionInfo").textContent = "共 " + total + " 張";
 
       renderChips();
     }
 
     function nextCard() {
       currentVocabIndex = (currentVocabIndex + 1) % vocabCards.length;
+      resetFlip();
       renderVocabCard();
     }
 
     function prevCard() {
       currentVocabIndex =
         (currentVocabIndex - 1 + vocabCards.length) % vocabCards.length;
+      resetFlip();
       renderVocabCard();
     }
 
@@ -735,6 +1118,8 @@
         } while (newIndex === currentVocabIndex);
         currentVocabIndex = newIndex;
       }
+
+      resetFlip();
       renderVocabCard();
     }
 
@@ -748,6 +1133,7 @@
         chip.textContent = card.word;
         chip.onclick = function () {
           currentVocabIndex = index;
+          resetFlip();
           renderVocabCard();
         };
         chips.appendChild(chip);
