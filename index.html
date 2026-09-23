@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+
+  <title>德語單字卡</title>
+
+  <!-- iOS 主畫面 App 模式 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="德語單字卡" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <!-- Android / 一般瀏覽器主題色 -->
+  <meta name="theme-color" content="#fda085" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      height: 100%;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      color: #222;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      overflow-x: hidden;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 14px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .title-group {
+      text-align: left;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .badge {
+      background: #fff3d1;
+      color: #b36b00;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .progress-wrap {
+      background: #f2f2f2;
+      border-radius: 999px;
+      height: 12px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff9f43, #ff6b6b);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .card {
+      width: 100%;
+      min-height: 255px;
+      background: #fff8e7;
+      border: 3px solid #ffb347;
+      border-radius: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 18px;
+      text-align: center;
+      user-select: none;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+      background: #fff1c4;
+    }
+
+    .article {
+      font-size: 23px;
+      font-weight: 800;
+      color: #e67e22;
+      min-height: 30px;
+    }
+
+    .word {
+      font-size: 46px;
+      font-weight: 900;
+      margin-top: 8px;
+      line-height: 1.1;
+      color: #181818;
+      word-break: break-word;
+    }
+
+    .pronunciation {
+      color: #777;
+      font-size: 17px;
+      margin-top: 12px;
+    }
+
+    .meaning {
+      font-size: 34px;
+      font-weight: 900;
+      color: #2c7a7b;
+      line-height: 1.2;
+    }
+
+    .example {
+      margin-top: 18px;
+      font-size: 17px;
+      color: #444;
+      line-height: 1.65;
+    }
+
+    .example-de {
+      font-weight: 800;
+      color: #333;
+    }
+
+    .example-zh {
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #999;
+      margin-top: 18px;
+    }
+
+    .panel {
+      background: #f7f7f7;
+      border-radius: 22px;
+      padding: 14px;
+    }
+
+    .speech-buttons,
+    .main-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      min-height: 48px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 800;
+      touch-action: manipulation;
+      user-select: none;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:active {
+      transform: scale(0.96);
+      opacity: 0.9;
+    }
+
+    .primary {
+      background: #ff9f43;
+      color: white;
+    }
+
+    .secondary {
+      background: #54a0ff;
+      color: white;
+    }
+
+    .success {
+      background: #1dd1a1;
+      color: white;
+    }
+
+    .danger {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .gray {
+      background: #dfe6e9;
+      color: #333;
+    }
+
+    .purple {
+      background: #5f27cd;
+      color: white;
+    }
+
+    .dark {
+      background: #2f3542;
+      color: white;
+    }
+
+    .speed-control {
+      margin-top: 12px;
+      text-align: left;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .speed-control label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #ff9f43;
+    }
+
+    .voice-note {
+      margin-top: 10px;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .quiz-box {
+      display: none;
+      background: #f1f2f6;
+      padding: 16px;
+      border-radius: 22px;
+    }
+
+    .quiz-box h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 14px;
+      border: 2px solid #ccc;
+      border-radius: 14px;
+      font-size: 17px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #ff9f43;
+    }
+
+    .result {
+      font-weight: 900;
+      margin-top: 10px;
+      min-height: 24px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #f7f7f7;
+      border-radius: 22px;
+      padding: 12px;
+      gap: 8px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .stats span {
+      display: block;
+      font-size: 22px;
+      font-weight: 900;
+      margin-top: 4px;
+      color: #222;
+    }
+
+    .install-tip {
+      background: #fff3d1;
+      color: #6b4300;
+      border-radius: 18px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: left;
+      display: none;
+    }
+
+    .install-tip strong {
+      color: #4a2e00;
+    }
+
+    @media (max-width: 430px) {
+      .app-shell {
+        padding: 10px;
+      }
+
+      .app {
+        border-radius: 24px;
+        padding: 14px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+
+      .word {
+        font-size: 40px;
+      }
+
+      .meaning {
+        font-size: 30px;
+      }
+
+      .card {
+        min-height: 235px;
+      }
+
+      button {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .speech-buttons,
+      .main-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .top-bar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <main class="app">
+      <div class="top-bar">
+        <div class="title-group">
+          <h1>🇩🇪 德語單字卡</h1>
+          <div class="subtitle">點卡片翻面，按喇叭聽發音</div>
+        </div>
+        <div class="badge" id="progressText">1 / 10</div>
+      </div>
+
+      <div class="install-tip" id="installTip">
+        <strong>加入 iPhone 主畫面：</strong>
+        用 Safari 開啟本頁後，點下方分享按鈕，再選「加入主畫面」。
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <section class="card" onclick="flipCard()" aria-label="單字卡，點擊翻面">
+        <div id="cardContent"></div>
+        <div class="hint">點擊卡片翻面</div>
+      </section>
+
+      <section class="panel">
+        <div class="speech-buttons">
+          <button class="purple" onclick="speakWord()">🔊 單字</button>
+          <button class="dark" onclick="speakExample()">🔊 例句</button>
+        </div>
+
+        <div class="speed-control">
+          <label>
+            <span>發音速度</span>
+            <span id="speedValue">0.85x</span>
+          </label>
+          <input
+            type="range"
+            id="speedRange"
+            min="0.5"
+            max="1.2"
+            step="0.05"
+            value="0.85"
+            oninput="updateSpeed()"
+          />
+        </div>
+
+        <div class="voice-note" id="voiceNote">
+          點擊「單字」或「例句」即可啟用 iOS 發音。
+        </div>
+      </section>
+
+      <section class="main-buttons">
+        <button class="gray" onclick="prevCard()">上一張</button>
+        <button class="gray" onclick="nextCard()">下一張</button>
+        <button class="primary" onclick="randomCard()">隨機抽卡</button>
+        <button class="secondary" onclick="toggleQuiz()">測驗模式</button>
+        <button class="success" onclick="markKnown()">我會了</button>
+        <button class="danger" onclick="markUnknown()">還不熟</button>
+      </section>
+
+      <section class="quiz-box" id="quizBox">
+        <h3>小測驗</h3>
+        <p>請輸入這個德語單字的中文意思：</p>
+        <input
+          type="text"
+          id="answerInput"
+          placeholder="例如：書、貓、喝..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        />
+        <button class="primary" onclick="checkAnswer()">確認答案</button>
+        <div class="result" id="quizResult"></div>
+      </section>
+
+      <section class="stats">
+        <div>
+          會了
+          <span id="knownCount">0</span>
+        </div>
+        <div>
+          還不熟
+          <span id="unknownCount">0</span>
+        </div>
+        <div>
+          總單字
+          <span id="totalCount">0</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const cards = [
+      {
+        article: "das",
+        word: "Buch",
+        pronunciation: "[buːx]",
+        meaning: "書",
+        exampleGerman: "Ich lese ein Buch.",
+        exampleChinese: "我正在讀一本書。"
+      },
+      {
+        article: "die",
+        word: "Katze",
+        pronunciation: "[ˈkatsə]",
+        meaning: "貓",
+        exampleGerman: "Die Katze schläft.",
+        exampleChinese: "那隻貓在睡覺。"
+      },
+      {
+        article: "der",
+        word: "Hund",
+        pronunciation: "[hʊnt]",
+        meaning: "狗",
+        exampleGerman: "Der Hund läuft schnell.",
+        exampleChinese: "那隻狗跑得很快。"
+      },
+      {
+        article: "das",
+        word: "Wasser",
+        pronunciation: "[ˈvasɐ]",
+        meaning: "水",
+        exampleGerman: "Ich trinke Wasser.",
+        exampleChinese: "我喝水。"
+      },
+      {
+        article: "der",
+        word: "Apfel",
+        pronunciation: "[ˈapfəl]",
+        meaning: "蘋果",
+        exampleGerman: "Der Apfel ist rot.",
+        exampleChinese: "這顆蘋果是紅色的。"
+      },
+      {
+        article: "die",
+        word: "Schule",
+        pronunciation: "[ˈʃuːlə]",
+        meaning: "學校",
+        exampleGerman: "Ich gehe zur Schule.",
+        exampleChinese: "我去學校。"
+      },
+      {
+        article: "das",
+        word: "Haus",
+        pronunciation: "[haʊs]",
+        meaning: "房子",
+        exampleGerman: "Das Haus ist groß.",
+        exampleChinese: "這間房子很大。"
+      },
+      {
+        article: "der",
+        word: "Freund",
+        pronunciation: "[fʁɔʏnt]",
+        meaning: "朋友",
+        exampleGerman: "Er ist mein Freund.",
+        exampleChinese: "他是我的朋友。"
+      },
+      {
+        article: "",
+        word: "essen",
+        pronunciation: "[ˈɛsn̩]",
+        meaning: "吃",
+        exampleGerman: "Ich esse Brot.",
+        exampleChinese: "我吃麵包。"
+      },
+      {
+        article: "",
+        word: "trinken",
+        pronunciation: "[ˈtʁɪŋkən]",
+        meaning: "喝",
+        exampleGerman: "Wir trinken Tee.",
+        exampleChinese: "我們喝茶。"
+      }
+    ];
+
+    let currentIndex = 0;
+    let flipped = false;
+    let known = 0;
+    let unknown = 0;
+    let speechRate = 0.85;
+    let germanVoice = null;
+
+    const learnedStatus = new Array(cards.length).fill(null);
+
+    function isIosSafari() {
+      const ua = window.navigator.userAgent;
+      const isIOS = /iPad|iPhone|iPod/.test(ua) || 
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(ua);
+      return isIOS && isSafari;
+    }
+
+    function isStandaloneMode() {
+      return window.navigator.standalone === true ||
+        window.matchMedia("(display-mode: standalone)").matches;
+    }
+
+    function showInstallTipIfNeeded() {
+      const tip = document.getElementById("installTip");
+
+      if (isIosSafari() && !isStandaloneMode()) {
+        tip.style.display = "block";
+      } else {
+        tip.style.display = "none";
+      }
+    }
+
+    function loadVoices() {
+      if (!("speechSynthesis" in window)) {
+        document.getElementById("voiceNote").textContent =
+          "你的瀏覽器不支援發音功能。";
+        return;
+      }
+
+      const voices = window.speechSynthesis.getVoices();
+
+      germanVoice =
+        voices.find(voice => voice.lang === "de-DE") ||
+        voices.find(voice => voice.lang && voice.lang.toLowerCase().startsWith("de")) ||
+        null;
+
+      if (germanVoice) {
+        document.getElementById("voiceNote").textContent =
+          "已載入德語語音：" + germanVoice.name + "（" + germanVoice.lang + "）";
+      } else {
+        document.getElementById("voiceNote").textContent =
+          "可播放發音；若聲音不像德語，請在 iPhone 設定中下載德文語音。";
+      }
+    }
+
+    function prepareSpeechSystem() {
+      if (!("speechSynthesis" in window)) return;
+
+      loadVoices();
+
+      if (typeof window.speechSynthesis.onvoiceschanged !== "undefined") {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      }
+    }
+
+    function speakGerman(text) {
+      if (!("speechSynthesis" in window)) {
+        document.getElementById("voiceNote").textContent =
+          "此瀏覽器不支援語音朗讀。";
+        return;
+      }
+
+      try {
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "de-DE";
+        utterance.rate = speechRate;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        if (germanVoice) {
+          utterance.voice = germanVoice;
+        }
+
+        utterance.onstart = function () {
+          document.getElementById("voiceNote").textContent = "正在播放：" + text;
+        };
+
+        utterance.onend = function () {
+          document.getElementById("voiceNote").textContent =
+            germanVoice
+              ? "已載入德語語音：" + germanVoice.name + "（" + germanVoice.lang + "）"
+              : "發音播放完成。";
+        };
+
+        utterance.onerror = function () {
+          document.getElementById("voiceNote").textContent =
+            "發音播放失敗。請再點一次，或確認 Safari 沒有靜音。";
+        };
+
+        window.speechSynthesis.speak(utterance);
+      } catch (error) {
+        document.getElementById("voiceNote").textContent =
+          "發音系統發生錯誤，請重新整理頁面後再試。";
+      }
+    }
+
+    function speakWord() {
+      prepareSpeechSystem();
+
+      const card = cards[currentIndex];
+      const text = card.article ? card.article + " " + card.word : card.word;
+
+      speakGerman(text);
+    }
+
+    function speakExample() {
+      prepareSpeechSystem();
+
+      const card = cards[currentIndex];
+      speakGerman(card.exampleGerman);
+    }
+
+    function updateSpeed() {
+      const range = document.getElementById("speedRange");
+      speechRate = parseFloat(range.value);
+      document.getElementById("speedValue").textContent =
+        speechRate.toFixed(2) + "x";
+    }
+
+    function renderCard() {
+      const card = cards[currentIndex];
+      const cardContent = document.getElementById("cardContent");
+      const progressText = document.getElementById("progressText");
+      const progressBar = document.getElementById("progressBar");
+
+      progressText.textContent = currentIndex + 1 + " / " + cards.length;
+
+      const percentage = ((currentIndex + 1) / cards.length) * 100;
+      progressBar.style.width = percentage + "%";
+
+      if (!flipped) {
+        cardContent.innerHTML = `
+          <div class="article">${card.article || "&nbsp;"}</div>
+          <div class="word">${card.word}</div>
+          <div class="pronunciation">${card.pronunciation}</div>
+        `;
+      } else {
+        cardContent.innerHTML = `
+          <div class="meaning">${card.meaning}</div>
+          <div class="example">
+            <div class="example-de">${card.exampleGerman}</div>
+            <div class="example-zh">${card.exampleChinese}</div>
+          </div>
+        `;
+      }
+
+      document.getElementById("knownCount").textContent = known;
+      document.getElementById("unknownCount").textContent = unknown;
+      document.getElementById("totalCount").textContent = cards.length;
+
+      document.getElementById("quizResult").textContent = "";
+      document.getElementById("answerInput").value = "";
+    }
+
+    function flipCard() {
+      flipped = !flipped;
+      renderCard();
+    }
+
+    function nextCard() {
+      stopSpeech();
+      currentIndex = (currentIndex + 1) % cards.length;
+      flipped = false;
+      renderCard();
+    }
+
+    function prevCard() {
+      stopSpeech();
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      flipped = false;
+      renderCard();
+    }
+
+    function randomCard() {
+      stopSpeech();
+      currentIndex = Math.floor(Math.random() * cards.length);
+      flipped = false;
+      renderCard();
+    }
+
+    function stopSpeech() {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    function markKnown() {
+      if (learnedStatus[currentIndex] !== "known") {
+        if (learnedStatus[currentIndex] === "unknown") {
+          unknown--;
+        }
+        known++;
+        learnedStatus[currentIndex] = "known";
+      }
+
+      renderCard();
+      nextCard();
+    }
+
+    function markUnknown() {
+      if (learnedStatus[currentIndex] !== "unknown") {
+        if (learnedStatus[currentIndex] === "known") {
+          known--;
+        }
+        unknown++;
+        learnedStatus[currentIndex] = "unknown";
+      }
+
+      renderCard();
+      nextCard();
+    }
+
+    function toggleQuiz() {
+      const quizBox = document.getElementById("quizBox");
+      const isOpen = quizBox.style.display === "block";
+
+      quizBox.style.display = isOpen ? "none" : "block";
+
+      document.getElementById("quizResult").textContent = "";
+      document.getElementById("answerInput").value = "";
+
+      if (!isOpen) {
+        setTimeout(function () {
+          document.getElementById("answerInput").focus();
+        }, 100);
+      }
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answerInput").value.trim();
+      const correctAnswer = cards[currentIndex].meaning;
+      const result = document.getElementById("quizResult");
+
+      if (input === "") {
+        result.textContent = "請先輸入答案。";
+        result.style.color = "#e67e22";
+        return;
+      }
+
+      if (
+        input === correctAnswer ||
+        correctAnswer.includes(input) ||
+        input.includes(correctAnswer)
+      ) {
+        result.textContent = "答對了！Sehr gut!";
+        result.style.color = "#10ac84";
+      } else {
+        result.textContent = "答錯了，正確答案是：" + correctAnswer;
+        result.style.color = "#ee5253";
+      }
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        stopSpeech();
+      }
+    });
+
+    document.addEventListener("gesturestart", function (event) {
+      event.preventDefault();
+    });
+
+    showInstallTipIfNeeded();
+    prepareSpeechSystem();
+    renderCard();
+  </script>
+</body>
+</html>
