@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>德語單字翻頁字卡</title>
+  <title>德語單字與數字練習</title>
   <style>
     :root {
       --bg-1: #fff7ed;
@@ -60,13 +60,6 @@
       letter-spacing: 0.03em;
     }
 
-    header p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.96rem;
-      line-height: 1.7;
-    }
-
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -117,31 +110,62 @@
       display: none !important;
     }
 
-    /* 翻頁字卡 */
+    .search-box {
+      margin: 0 0 14px;
+      background: rgba(255, 250, 240, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 13px;
+      box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 1px solid #fdba74;
+      border-radius: 14px;
+      padding: 12px 13px;
+      font-size: 1rem;
+      outline: none;
+      background: #fffaf0;
+      color: var(--text);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
+    }
+
+    .search-result {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
     .flashcard-wrap {
-      perspective: 1200px;
+      position: relative;
+      width: 100%;
     }
 
     .flashcard {
       position: relative;
       width: 100%;
       min-height: 480px;
-      transform-style: preserve-3d;
-      transition: transform 0.65s ease;
       cursor: pointer;
     }
 
-    .flashcard.flipped {
-      transform: rotateY(180deg);
-    }
-
     .flashcard-face {
-      position: absolute;
+      position: relative;
       width: 100%;
       min-height: 480px;
-      top: 0;
-      left: 0;
-      backface-visibility: hidden;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.97));
       border: 1px solid var(--border);
@@ -149,6 +173,27 @@
       box-shadow: 0 18px 42px var(--shadow);
       padding: 26px 22px;
       overflow: hidden;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .flashcard-face.inactive {
+      display: none;
+    }
+
+    .flashcard-face.active {
+      display: block;
+      animation: cardFade 0.22s ease;
+    }
+
+    @keyframes cardFade {
+      from {
+        opacity: 0;
+        transform: translateY(6px) scale(0.995);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .flashcard-front::before,
@@ -162,6 +207,7 @@
       top: -80px;
       right: -70px;
       z-index: 0;
+      pointer-events: none;
     }
 
     .flashcard-front::after,
@@ -175,10 +221,10 @@
       bottom: -55px;
       left: -45px;
       z-index: 0;
+      pointer-events: none;
     }
 
     .flashcard-back {
-      transform: rotateY(180deg);
       background:
         linear-gradient(180deg, rgba(255,255,255,0.96), rgba(254,243,199,0.96));
     }
@@ -348,6 +394,7 @@
 
     button {
       -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
     }
 
     .btn {
@@ -383,6 +430,12 @@
     .btn.green {
       background: #16a34a;
       box-shadow: 0 5px 14px rgba(22, 163, 74, 0.22);
+    }
+
+    .btn.small {
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      border-radius: 12px;
     }
 
     .controls {
@@ -437,8 +490,7 @@
       color: #9a3412;
     }
 
-    /* 測驗模式 */
-    .practice-section {
+    .number-section {
       background:
         linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.96));
       border-radius: 30px;
@@ -448,14 +500,14 @@
       min-height: 440px;
     }
 
-    .practice-grid {
+    .number-mode-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 10px;
       margin: 0 0 18px;
     }
 
-    .practice-card {
+    .number-mode-card {
       border: 2px solid transparent;
       background: #fff7ed;
       border-radius: 18px;
@@ -466,7 +518,7 @@
       color: #7c2d12;
     }
 
-    .practice-card small {
+    .number-mode-card small {
       display: block;
       color: var(--muted);
       font-weight: 700;
@@ -474,7 +526,7 @@
       line-height: 1.4;
     }
 
-    .practice-card.active {
+    .number-mode-card.active {
       border-color: var(--primary);
       background: #ffedd5;
       color: var(--primary-dark);
@@ -556,36 +608,110 @@
       background: rgba(255, 250, 240, 0.82);
       border: 1px solid var(--border);
       border-radius: 22px;
-      padding: 15px;
       box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
+      overflow: hidden;
     }
 
-    .list-preview h3 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
-      color: var(--brown);
-    }
-
-    .chips {
+    .list-toggle {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 15px;
       display: flex;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: var(--brown);
+      font-size: 1.05rem;
+      font-weight: 950;
+    }
+
+    .list-toggle span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 850;
+    }
+
+    .word-list-content {
+      padding: 0 15px 15px;
+      display: none;
+    }
+
+    .word-list-content.open {
+      display: block;
+    }
+
+    .word-list {
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 8px;
     }
 
-    .chip {
+    .word-list-item {
       border: 1px solid #fdba74;
       background: #fff7ed;
       color: #7c2d12;
-      border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 0.9rem;
+      border-radius: 16px;
+      padding: 11px 12px;
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 850;
+      text-align: left;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
     }
 
-    .chip:hover {
+    .word-list-item:hover {
       background: #ffedd5;
       border-color: #fb923c;
+    }
+
+    .word-list-item.active {
+      background: #fed7aa;
+      border-color: #ea580c;
+    }
+
+    .word-list-index {
+      color: #9a3412;
+      font-weight: 950;
+      font-size: 0.86rem;
+    }
+
+    .word-list-main {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .word-list-main strong {
+      font-size: 1rem;
+      color: #7c2d12;
+    }
+
+    .word-list-main small {
+      color: var(--muted);
+      font-weight: 750;
+      line-height: 1.4;
+    }
+
+    .word-list-article {
+      background: #fffaf0;
+      border: 1px solid #fed7aa;
+      border-radius: 999px;
+      padding: 5px 9px;
+      color: #9a3412;
+      font-size: 0.82rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .empty-result {
+      color: var(--muted);
+      font-weight: 800;
+      padding: 12px;
+      text-align: center;
+      line-height: 1.6;
     }
 
     footer {
@@ -605,6 +731,10 @@
       }
 
       .tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .search-row {
         grid-template-columns: 1fr;
       }
 
@@ -629,7 +759,7 @@
         grid-template-columns: 1fr;
       }
 
-      .practice-grid {
+      .number-mode-grid {
         grid-template-columns: 1fr;
       }
 
@@ -663,41 +793,62 @@
       }
 
       .flashcard-face,
-      .practice-section {
+      .number-section {
         padding: 20px 15px;
+      }
+
+      .word-list-item {
+        grid-template-columns: auto 1fr;
+      }
+
+      .word-list-article {
+        grid-column: 2;
+        width: fit-content;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="app">
     <header>
-      <h1>德語單字翻頁字卡</h1>
-      <p>
-        正面只看德語單字、發音與冠詞提示。<br />
-        翻到背面後再看中英意思、詞性和例句。
-      </p>
+      <h1>德語單字與數字練習</h1>
     </header>
 
     <div class="tabs">
       <button class="tab-btn active" id="vocabTab" onclick="switchMainSection('vocab')">
         德語單字
       </button>
-      <button class="tab-btn" id="practiceTab" onclick="switchMainSection('practice')">
-        測驗模式
+      <button class="tab-btn" id="numberTab" onclick="switchMainSection('number')">
+        德語數字
       </button>
     </div>
 
     <div class="section-title">
-      <div id="sectionName">德語單字板塊</div>
+      <div id="sectionName">德語單字</div>
       <span id="sectionInfo">共 28 張</span>
     </div>
 
-    <!-- 德語單字板塊 -->
     <main id="vocabSection">
+      <section class="search-box">
+        <div class="search-row">
+          <input
+            class="search-input"
+            id="searchInput"
+            type="text"
+            placeholder="搜尋德語、中文、英文或詞性，例如 Tisch / 桌子 / table / Verb"
+            oninput="handleSearch()"
+          />
+          <button class="btn small gray" onclick="clearSearch()">清除</button>
+        </div>
+        <div class="search-result" id="searchResult">
+          可輸入德語、中文、英文、冠詞或詞性搜尋。
+        </div>
+      </section>
+
       <div class="flashcard-wrap">
         <div class="flashcard" id="flashcard" onclick="flipCard()">
-          <div class="flashcard-face flashcard-front">
+          <div class="flashcard-face flashcard-front active" id="frontFace">
             <div class="card-content">
               <div class="badge-row">
                 <span class="badge" id="frontIndexBadge">1 / 28</span>
@@ -716,12 +867,12 @@
               </div>
 
               <div class="tap-hint">
-                點擊字卡翻面查看中文、英文、詞性與例句。
+                點擊字卡翻面查看答案。
               </div>
             </div>
           </div>
 
-          <div class="flashcard-face flashcard-back">
+          <div class="flashcard-face flashcard-back inactive" id="backFace">
             <div class="card-content">
               <div>
                 <div class="badge-row">
@@ -797,31 +948,30 @@
       <div class="counter" id="counter">第 1 / 28 張</div>
     </main>
 
-    <!-- 測驗模式 -->
-    <main class="practice-section hidden" id="practiceSection">
-      <div class="practice-grid">
-        <button class="practice-card active" id="modeNumber" onclick="switchPracticeMode('number')">
+    <main class="number-section hidden" id="numberSection">
+      <div class="number-mode-grid">
+        <button class="number-mode-card active" id="modeNumber" onclick="switchNumberMode('number')">
           隨機數字
-          <small>整數，不含小數/分數</small>
+          <small>整數，不含小數 / 分數</small>
         </button>
 
-        <button class="practice-card" id="modeYear" onclick="switchPracticeMode('year')">
+        <button class="number-mode-card" id="modeYear" onclick="switchNumberMode('year')">
           隨機年份
           <small>例如 1998、2024</small>
         </button>
 
-        <button class="practice-card" id="modeMonth" onclick="switchPracticeMode('month')">
+        <button class="number-mode-card" id="modeMonth" onclick="switchNumberMode('month')">
           隨機月份
           <small>Januar 到 Dezember</small>
         </button>
       </div>
 
       <div>
-        <div class="badge" id="practiceBadge">隨機數字</div>
-        <div class="big-value" id="practiceValue">42</div>
-        <div class="german-answer" id="practiceGerman">zweiundvierzig</div>
-        <div class="hint" id="practiceHint">
-          點擊「產生新的題目」可練習不同整數。
+        <div class="badge" id="numberBadge">隨機數字</div>
+        <div class="big-value" id="numberValue">42</div>
+        <div class="german-answer" id="numberGerman">zweiundvierzig</div>
+        <div class="hint" id="numberHint">
+          點擊「產生新的內容」可練習不同德語數字。
         </div>
       </div>
 
@@ -843,31 +993,36 @@
       </div>
 
       <div class="speak-row">
-        <button class="btn secondary" onclick="speakPractice()">🔊 德語發音</button>
-        <button class="btn" onclick="generatePractice()">產生新的題目</button>
+        <button class="btn secondary" onclick="speakNumberPractice()">🔊 德語發音</button>
+        <button class="btn" onclick="generateNumberPractice()">產生新的內容</button>
       </div>
 
       <div class="speech-settings">
         <div class="speech-settings-title">語速設定</div>
         <div class="speech-control">
-          <label for="speechRatePractice">發音速度</label>
+          <label for="speechRateNumber">發音速度</label>
           <input
-            id="speechRatePractice"
+            id="speechRateNumber"
             type="range"
             min="0.5"
             max="1.5"
             step="0.05"
             value="0.85"
-            oninput="syncSpeechRateFromPractice()"
+            oninput="syncSpeechRateFromNumber()"
           />
-          <div class="rate-value" id="speechRateValuePractice">0.85x</div>
+          <div class="rate-value" id="speechRateValueNumber">0.85x</div>
         </div>
       </div>
     </main>
 
     <section class="list-preview" id="previewSection">
-      <h3>目前單字列表</h3>
-      <div class="chips" id="chips"></div>
+      <button class="list-toggle" onclick="toggleWordList()">
+        <div>單字列表</div>
+        <span id="listToggleText">展開 ▼</span>
+      </button>
+      <div class="word-list-content" id="wordListContent">
+        <div class="word-list" id="wordList"></div>
+      </div>
     </section>
 
     <footer>
@@ -1204,55 +1359,74 @@
 
     let currentMainSection = "vocab";
     let currentVocabIndex = 0;
-    let currentPracticeMode = "number";
-    let currentPracticeSpeakText = "zweiundvierzig";
+    let currentNumberMode = "number";
+    let currentNumberSpeakText = "zweiundvierzig";
     let isFlipped = false;
     let speechRate = 0.85;
+    let isWordListOpen = false;
+    let filteredIndexes = vocabCards.map((_, index) => index);
 
     function switchMainSection(section) {
       currentMainSection = section;
 
       const vocabTab = document.getElementById("vocabTab");
-      const practiceTab = document.getElementById("practiceTab");
+      const numberTab = document.getElementById("numberTab");
       const vocabSection = document.getElementById("vocabSection");
-      const practiceSection = document.getElementById("practiceSection");
+      const numberSection = document.getElementById("numberSection");
       const previewSection = document.getElementById("previewSection");
       const sectionName = document.getElementById("sectionName");
       const sectionInfo = document.getElementById("sectionInfo");
 
       if (section === "vocab") {
         vocabTab.classList.add("active");
-        practiceTab.classList.remove("active");
+        numberTab.classList.remove("active");
 
         vocabSection.classList.remove("hidden");
-        practiceSection.classList.add("hidden");
+        numberSection.classList.add("hidden");
         previewSection.classList.remove("hidden");
 
-        sectionName.textContent = "德語單字板塊";
+        sectionName.textContent = "德語單字";
         sectionInfo.textContent = "共 " + vocabCards.length + " 張";
         renderVocabCard();
       } else {
-        practiceTab.classList.add("active");
+        numberTab.classList.add("active");
         vocabTab.classList.remove("active");
 
-        practiceSection.classList.remove("hidden");
+        numberSection.classList.remove("hidden");
         vocabSection.classList.add("hidden");
         previewSection.classList.add("hidden");
 
-        sectionName.textContent = "測驗模式";
-        sectionInfo.textContent = "3 種功能";
-        generatePractice();
+        sectionName.textContent = "德語數字";
+        sectionInfo.textContent = "數字 / 年份 / 月份";
+        generateNumberPractice();
       }
     }
 
     function flipCard() {
       isFlipped = !isFlipped;
-      document.getElementById("flashcard").classList.toggle("flipped", isFlipped);
+      updateCardFace();
+    }
+
+    function updateCardFace() {
+      const frontFace = document.getElementById("frontFace");
+      const backFace = document.getElementById("backFace");
+
+      if (isFlipped) {
+        frontFace.classList.remove("active");
+        frontFace.classList.add("inactive");
+        backFace.classList.remove("inactive");
+        backFace.classList.add("active");
+      } else {
+        backFace.classList.remove("active");
+        backFace.classList.add("inactive");
+        frontFace.classList.remove("inactive");
+        frontFace.classList.add("active");
+      }
     }
 
     function resetFlip() {
       isFlipped = false;
-      document.getElementById("flashcard").classList.remove("flipped");
+      updateCardFace();
     }
 
     function renderVocabCard() {
@@ -1283,29 +1457,56 @@
 
       document.getElementById("sectionInfo").textContent = "共 " + total + " 張";
 
-      renderChips();
+      renderWordList();
     }
 
     function nextCard() {
-      currentVocabIndex = (currentVocabIndex + 1) % vocabCards.length;
+      if (filteredIndexes.length > 0) {
+        const position = filteredIndexes.indexOf(currentVocabIndex);
+
+        if (position === -1) {
+          currentVocabIndex = filteredIndexes[0];
+        } else {
+          currentVocabIndex = filteredIndexes[(position + 1) % filteredIndexes.length];
+        }
+      } else {
+        currentVocabIndex = (currentVocabIndex + 1) % vocabCards.length;
+      }
+
       resetFlip();
       renderVocabCard();
     }
 
     function prevCard() {
-      currentVocabIndex =
-        (currentVocabIndex - 1 + vocabCards.length) % vocabCards.length;
+      if (filteredIndexes.length > 0) {
+        const position = filteredIndexes.indexOf(currentVocabIndex);
+
+        if (position === -1) {
+          currentVocabIndex = filteredIndexes[0];
+        } else {
+          currentVocabIndex =
+            filteredIndexes[(position - 1 + filteredIndexes.length) % filteredIndexes.length];
+        }
+      } else {
+        currentVocabIndex =
+          (currentVocabIndex - 1 + vocabCards.length) % vocabCards.length;
+      }
+
       resetFlip();
       renderVocabCard();
     }
 
     function randomCard() {
-      if (vocabCards.length <= 1) {
-        currentVocabIndex = 0;
+      const pool = filteredIndexes.length > 0
+        ? filteredIndexes
+        : vocabCards.map((_, index) => index);
+
+      if (pool.length <= 1) {
+        currentVocabIndex = pool[0] || 0;
       } else {
         let newIndex;
         do {
-          newIndex = Math.floor(Math.random() * vocabCards.length);
+          newIndex = pool[Math.floor(Math.random() * pool.length)];
         } while (newIndex === currentVocabIndex);
         currentVocabIndex = newIndex;
       }
@@ -1314,20 +1515,143 @@
       renderVocabCard();
     }
 
-    function renderChips() {
-      const chips = document.getElementById("chips");
-      chips.innerHTML = "";
+    function handleSearch() {
+      const keyword = normalizeText(document.getElementById("searchInput").value);
 
-      vocabCards.forEach((card, index) => {
-        const chip = document.createElement("button");
-        chip.className = "chip";
-        chip.textContent = card.fullWord;
-        chip.onclick = function () {
+      if (!keyword) {
+        filteredIndexes = vocabCards.map((_, index) => index);
+        document.getElementById("searchResult").textContent =
+          "可輸入德語、中文、英文、冠詞或詞性搜尋。";
+        renderWordList();
+        return;
+      }
+
+      filteredIndexes = vocabCards
+        .map((card, index) => ({ card, index }))
+        .filter(({ card }) => {
+          const haystack = normalizeText([
+            card.displayWord,
+            card.fullWord,
+            card.article,
+            card.type,
+            card.chinese,
+            card.english,
+            card.exampleDe,
+            card.exampleZh,
+            card.exampleEn
+          ].join(" "));
+          return haystack.includes(keyword);
+        })
+        .map(item => item.index);
+
+      document.getElementById("searchResult").textContent =
+        "找到 " + filteredIndexes.length + " 個結果。";
+
+      if (filteredIndexes.length > 0) {
+        currentVocabIndex = filteredIndexes[0];
+        resetFlip();
+        renderVocabCard();
+
+        if (!isWordListOpen) {
+          toggleWordList(true);
+        }
+      } else {
+        renderWordList();
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById("searchInput").value = "";
+      filteredIndexes = vocabCards.map((_, index) => index);
+      document.getElementById("searchResult").textContent =
+        "可輸入德語、中文、英文、冠詞或詞性搜尋。";
+      renderWordList();
+    }
+
+    function normalizeText(text) {
+      return String(text || "")
+        .toLowerCase()
+        .trim();
+    }
+
+    function toggleWordList(forceOpen) {
+      if (typeof forceOpen === "boolean") {
+        isWordListOpen = forceOpen;
+      } else {
+        isWordListOpen = !isWordListOpen;
+      }
+
+      const content = document.getElementById("wordListContent");
+      const text = document.getElementById("listToggleText");
+
+      if (isWordListOpen) {
+        content.classList.add("open");
+        text.textContent = "收起 ▲";
+      } else {
+        content.classList.remove("open");
+        text.textContent = "展開 ▼";
+      }
+    }
+
+    function renderWordList() {
+      const list = document.getElementById("wordList");
+      if (!list) return;
+
+      list.innerHTML = "";
+
+      const indexesToRender = filteredIndexes.length > 0
+        ? filteredIndexes
+        : [];
+
+      if (indexesToRender.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-result";
+        empty.textContent = "沒有符合搜尋條件的單字。";
+        list.appendChild(empty);
+        return;
+      }
+
+      indexesToRender.forEach((index) => {
+        const card = vocabCards[index];
+        const item = document.createElement("button");
+
+        item.className = "word-list-item";
+        if (index === currentVocabIndex) {
+          item.classList.add("active");
+        }
+
+        item.onclick = function () {
           currentVocabIndex = index;
           resetFlip();
           renderVocabCard();
+          window.scrollTo({ top: 0, behavior: "smooth" });
         };
-        chips.appendChild(chip);
+
+        const number = document.createElement("div");
+        number.className = "word-list-index";
+        number.textContent = index + 1 + ".";
+
+        const main = document.createElement("div");
+        main.className = "word-list-main";
+
+        const strong = document.createElement("strong");
+        strong.textContent = card.fullWord;
+
+        const small = document.createElement("small");
+        small.textContent = card.chinese + " ｜ " + card.english;
+
+        main.appendChild(strong);
+        main.appendChild(small);
+
+        const article = document.createElement("div");
+        article.className = "word-list-article";
+        article.textContent = card.article;
+
+        item.appendChild(number);
+        item.appendChild(main);
+        item.appendChild(article);
+
+        list.appendChild(item);
       });
     }
 
@@ -1338,20 +1662,20 @@
       document.getElementById("speechRateValue").textContent =
         speechRate.toFixed(2) + "x";
 
-      const practiceInput = document.getElementById("speechRatePractice");
-      const practiceLabel = document.getElementById("speechRateValuePractice");
+      const numberInput = document.getElementById("speechRateNumber");
+      const numberLabel = document.getElementById("speechRateValueNumber");
 
-      if (practiceInput && practiceLabel) {
-        practiceInput.value = speechRate;
-        practiceLabel.textContent = speechRate.toFixed(2) + "x";
+      if (numberInput && numberLabel) {
+        numberInput.value = speechRate;
+        numberLabel.textContent = speechRate.toFixed(2) + "x";
       }
     }
 
-    function syncSpeechRateFromPractice() {
-      const practiceInput = document.getElementById("speechRatePractice");
-      speechRate = parseFloat(practiceInput.value);
+    function syncSpeechRateFromNumber() {
+      const numberInput = document.getElementById("speechRateNumber");
+      speechRate = parseFloat(numberInput.value);
 
-      document.getElementById("speechRateValuePractice").textContent =
+      document.getElementById("speechRateValueNumber").textContent =
         speechRate.toFixed(2) + "x";
 
       const vocabInput = document.getElementById("speechRate");
@@ -1363,8 +1687,8 @@
       }
     }
 
-    function switchPracticeMode(mode) {
-      currentPracticeMode = mode;
+    function switchNumberMode(mode) {
+      currentNumberMode = mode;
 
       document.getElementById("modeNumber").classList.remove("active");
       document.getElementById("modeYear").classList.remove("active");
@@ -1381,13 +1705,13 @@
         document.getElementById("numberOptions").classList.add("hidden");
       }
 
-      generatePractice();
+      generateNumberPractice();
     }
 
-    function generatePractice() {
-      if (currentPracticeMode === "number") {
+    function generateNumberPractice() {
+      if (currentNumberMode === "number") {
         generateRandomNumber();
-      } else if (currentPracticeMode === "year") {
+      } else if (currentNumberMode === "year") {
         generateRandomYear();
       } else {
         generateRandomMonth();
@@ -1413,40 +1737,40 @@
       const value = getRandomInt(min, max);
       const german = numberToGerman(value);
 
-      document.getElementById("practiceBadge").textContent = "隨機數字";
-      document.getElementById("practiceValue").textContent = value.toString();
-      document.getElementById("practiceGerman").textContent = german;
-      document.getElementById("practiceHint").textContent =
+      document.getElementById("numberBadge").textContent = "隨機數字";
+      document.getElementById("numberValue").textContent = value.toString();
+      document.getElementById("numberGerman").textContent = german;
+      document.getElementById("numberHint").textContent =
         "整數練習，不包含小數或分數。";
 
-      currentPracticeSpeakText = german;
+      currentNumberSpeakText = german;
     }
 
     function generateRandomYear() {
       const year = getRandomInt(1900, 2099);
       const german = yearToGerman(year);
 
-      document.getElementById("practiceBadge").textContent = "隨機年份";
-      document.getElementById("practiceValue").textContent = year.toString();
-      document.getElementById("practiceGerman").textContent = german;
-      document.getElementById("practiceHint").textContent =
+      document.getElementById("numberBadge").textContent = "隨機年份";
+      document.getElementById("numberValue").textContent = year.toString();
+      document.getElementById("numberGerman").textContent = german;
+      document.getElementById("numberHint").textContent =
         "年份範圍：1900 到 2099。";
 
-      currentPracticeSpeakText = german;
+      currentNumberSpeakText = german;
     }
 
     function generateRandomMonth() {
       const month = months[getRandomInt(0, months.length - 1)];
 
-      document.getElementById("practiceBadge").textContent = "隨機月份";
-      document.getElementById("practiceValue").textContent =
+      document.getElementById("numberBadge").textContent = "隨機月份";
+      document.getElementById("numberValue").textContent =
         month.value + " 月";
-      document.getElementById("practiceGerman").textContent =
+      document.getElementById("numberGerman").textContent =
         month.german + " ｜ " + month.chinese + " ｜ " + month.english;
-      document.getElementById("practiceHint").textContent =
+      document.getElementById("numberHint").textContent =
         "月份可搭配介詞 im 使用，例如：im " + month.german + "。";
 
-      currentPracticeSpeakText = month.german;
+      currentNumberSpeakText = month.german;
     }
 
     function getRandomInt(min, max) {
@@ -1604,12 +1928,13 @@
       speak(card.exampleDe);
     }
 
-    function speakPractice() {
-      speak(currentPracticeSpeakText);
+    function speakNumberPractice() {
+      speak(currentNumberSpeakText);
     }
 
     renderVocabCard();
     updateSpeechRateLabel();
+    updateCardFace();
   </script>
 </body>
 </html>
