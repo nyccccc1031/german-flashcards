@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>德語單字與數字練習</title>
+  <title>德語旅行單字與練習</title>
   <style>
     :root {
-      --bg-1: #fff7ed;
-      --bg-2: #ffedd5;
-      --bg-3: #fef3c7;
-      --card: #fffaf0;
-      --card-2: #ffffff;
-      --primary: #ea580c;
-      --primary-dark: #c2410c;
-      --secondary: #f59e0b;
-      --secondary-dark: #d97706;
-      --brown: #7c2d12;
-      --text: #2f1b0c;
-      --muted: #8a5a35;
-      --border: #fed7aa;
-      --soft: #fff7ed;
-      --green: #15803d;
-      --blue: #2563eb;
-      --shadow: rgba(124, 45, 18, 0.18);
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --green: #16a34a;
+      --green-soft: #ecfdf5;
+      --orange: #f97316;
+      --orange-soft: #fff7ed;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
     }
 
     * {
@@ -31,1880 +32,1645 @@
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC",
-        "Helvetica Neue", Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(251, 146, 60, 0.3), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.28), transparent 34%),
-        linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+        radial-gradient(circle at top left, #dbeafe 0, transparent 34%),
+        radial-gradient(circle at top right, #ede9fe 0, transparent 30%),
+        linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
       color: var(--text);
-      min-height: 100vh;
-      padding: 18px;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
+      line-height: 1.6;
     }
 
     header {
+      padding: 28px 16px 20px;
       text-align: center;
-      margin-bottom: 18px;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
     }
 
     header h1 {
-      margin: 10px 0 8px;
-      font-size: 2rem;
-      color: var(--brown);
+      margin: 0;
+      font-size: 27px;
       letter-spacing: 0.03em;
     }
 
-    .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 18px 0;
+    header p {
+      margin: 10px auto 0;
+      max-width: 760px;
+      font-size: 14px;
+      opacity: 0.93;
     }
 
-    .tab-btn {
-      border: 1px solid var(--border);
-      background: rgba(255, 250, 240, 0.9);
-      color: var(--brown);
-      padding: 13px 10px;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 6px 16px var(--shadow);
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 18px 14px 56px;
     }
 
-    .tab-btn.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      border-color: transparent;
-    }
-
-    .section-title {
-      margin: 12px 0;
-      padding: 12px 15px;
-      background: rgba(255, 250, 240, 0.85);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      font-weight: 950;
-      color: var(--brown);
+    .main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin: -1px -14px 18px;
+      padding: 12px 14px;
+      background: rgba(248, 250, 252, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
       display: flex;
-      justify-content: space-between;
-      align-items: center;
       gap: 8px;
-      box-shadow: 0 4px 14px rgba(124, 45, 18, 0.08);
+      overflow-x: auto;
     }
 
-    .section-title span {
-      color: var(--muted);
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .search-box {
-      margin: 0 0 14px;
-      background: rgba(255, 250, 240, 0.85);
+    .nav-btn {
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 13px;
-      box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
-    }
-
-    .search-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .search-input {
-      width: 100%;
-      border: 1px solid #fdba74;
-      border-radius: 14px;
-      padding: 12px 13px;
-      font-size: 1rem;
-      outline: none;
-      background: #fffaf0;
+      background: white;
       color: var(--text);
-    }
-
-    .search-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
-    }
-
-    .search-result {
-      margin-top: 9px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 800;
-      line-height: 1.5;
-    }
-
-    .flashcard-wrap {
-      position: relative;
-      width: 100%;
-    }
-
-    .flashcard {
-      position: relative;
-      width: 100%;
-      min-height: 480px;
+      border-radius: 999px;
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
       cursor: pointer;
+      transition: 0.18s;
     }
 
-    .flashcard-face {
-      position: relative;
-      width: 100%;
-      min-height: 480px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.97));
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      box-shadow: 0 18px 42px var(--shadow);
-      padding: 26px 22px;
-      overflow: hidden;
-      transition: opacity 0.22s ease, transform 0.22s ease;
+    .nav-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
     }
 
-    .flashcard-face.inactive {
+    .panel {
       display: none;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.18s ease;
     }
 
-    .flashcard-face.active {
+    .panel.active {
       display: block;
-      animation: cardFade 0.22s ease;
     }
 
-    @keyframes cardFade {
+    @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(6px) scale(0.995);
+        transform: translateY(4px);
       }
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
     }
 
-    .flashcard-front::before,
-    .flashcard-back::before {
-      content: "";
-      position: absolute;
-      width: 230px;
-      height: 230px;
+    h2 {
+      margin: 0 0 8px;
+      font-size: 23px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 16px;
+    }
+
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+    }
+
+    .sub-tab {
+      border: 1px solid var(--border);
+      background: #fff;
       border-radius: 999px;
-      background: rgba(251, 146, 60, 0.12);
-      top: -80px;
-      right: -70px;
-      z-index: 0;
-      pointer-events: none;
+      padding: 8px 13px;
+      white-space: nowrap;
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 650;
+      font-size: 13px;
     }
 
-    .flashcard-front::after,
-    .flashcard-back::after {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border-radius: 999px;
-      background: rgba(245, 158, 11, 0.12);
-      bottom: -55px;
-      left: -45px;
-      z-index: 0;
-      pointer-events: none;
+    .sub-tab.active {
+      background: var(--purple);
+      color: #fff;
+      border-color: var(--purple);
     }
 
-    .flashcard-back {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(254,243,199,0.96));
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
     }
 
-    .card-content {
-      position: relative;
-      z-index: 1;
-      min-height: 420px;
+    .compact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .word-card,
+    .sound-card,
+    .practice-card,
+    .choice-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      transition: 0.18s;
+    }
+
+    .word-card {
+      cursor: pointer;
+      min-height: 178px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    .front-center {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      text-align: center;
+    .word-card:hover,
+    .clickable:hover,
+    .choice-card:hover,
+    .dialogue-box.clickable:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.09);
+      border-color: #bfdbfe;
+    }
+
+    .word-card:active,
+    .clickable:active,
+    .choice-card:active,
+    .dialogue-box.clickable:active {
+      transform: scale(0.98);
+    }
+
+    .de {
+      font-size: 24px;
+      font-weight: 850;
+      color: #111827;
+      word-break: break-word;
+    }
+
+    .zh {
+      margin-top: 5px;
+      color: var(--primary-dark);
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .en {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .badge-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
+      gap: 6px;
+      margin-top: 10px;
     }
 
     .badge {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: #ffedd5;
-      color: #9a3412;
-      font-size: 0.86rem;
-      font-weight: 900;
-      border: 1px solid #fed7aa;
-    }
-
-    .badge.type {
-      background: #fef3c7;
-      color: #92400e;
-      border-color: #fde68a;
-    }
-
-    .article-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-width: 78px;
-      padding: 9px 16px;
+      width: fit-content;
       border-radius: 999px;
-      background: linear-gradient(135deg, #fb923c, #f59e0b);
-      color: white;
-      font-size: 1.05rem;
-      font-weight: 950;
-      box-shadow: 0 7px 18px rgba(234, 88, 12, 0.22);
-    }
-
-    .word {
-      font-size: 3.3rem;
-      font-weight: 950;
-      text-align: center;
-      margin: 10px 0;
-      color: var(--brown);
-      word-break: break-word;
-      line-height: 1.15;
-    }
-
-    .front-word {
-      font-size: 3.8rem;
-    }
-
-    .pronunciation {
-      text-align: center;
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 8px;
-    }
-
-    .tap-hint {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 14px;
-      line-height: 1.6;
-    }
-
-    .translation-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 12px 0;
-    }
-
-    .translation-box {
-      background: rgba(255, 255, 255, 0.75);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 13px;
-      line-height: 1.6;
-    }
-
-    .translation-box strong {
-      display: block;
-      color: var(--brown);
-      margin-bottom: 4px;
-    }
-
-    .translation-box span {
-      color: #3f2a1a;
-      font-size: 1.05rem;
+      padding: 4px 8px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 12px;
       font-weight: 750;
     }
 
-    .back-type-box {
-      margin: 12px 0;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid #fed7aa;
-      background: rgba(255, 237, 213, 0.75);
-      color: #7c2d12;
-      font-weight: 850;
-      line-height: 1.6;
+    .badge.green {
+      background: var(--green-soft);
+      color: #047857;
     }
 
-    .example {
-      margin-top: 16px;
-      padding: 15px;
+    .badge.orange {
+      background: var(--orange-soft);
+      color: #c2410c;
+    }
+
+    .badge.purple {
+      background: var(--purple-soft);
+      color: #6d28d9;
+    }
+
+    .article-box {
+      margin-top: 11px;
+      padding: 10px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .article-box strong {
+      color: #111827;
+    }
+
+    .hero-practice {
+      background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+      border: 1px solid #dbeafe;
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .large-word {
+      background: white;
+      border: 1px solid var(--border);
       border-radius: 20px;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
+      padding: 18px;
+      margin: 14px 0;
+      text-align: center;
     }
 
-    .example-title {
-      font-weight: 950;
-      color: var(--brown);
-      margin-bottom: 10px;
+    .large-word .de {
+      font-size: 38px;
     }
 
-    .example .de {
-      font-size: 1.18rem;
-      font-weight: 900;
-      color: #9a3412;
-      margin-bottom: 10px;
-      line-height: 1.5;
+    .dialogue-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin: 14px 0;
     }
 
-    .example .zh,
-    .example .en {
-      color: #6b3f1d;
-      font-size: 0.98rem;
-      line-height: 1.55;
-      margin-top: 6px;
+    .dialogue-box.clickable {
+      cursor: pointer;
     }
 
-    .speak-row {
+    .dialogue-label {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: var(--purple-soft);
+      color: #6d28d9;
+      font-size: 12px;
+      font-weight: 850;
+      margin-bottom: 8px;
+    }
+
+    .question-text {
+      font-size: 24px;
+      font-weight: 850;
+      color: #111827;
+    }
+
+    .choice-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
-    button {
-      -webkit-tap-highlight-color: transparent;
-      font-family: inherit;
+    .choice-card {
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      color: var(--text);
+    }
+
+    .choice-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.12);
+    }
+
+    .choice-card.correct {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .choice-card.wrong {
+      border-color: #fecaca;
+      background: #fef2f2;
+    }
+
+    .choice-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
     }
 
     .btn {
-      border: none;
-      padding: 12px 14px;
-      border-radius: 15px;
-      font-size: 1rem;
-      font-weight: 950;
+      border: 0;
+      border-radius: 14px;
+      padding: 10px 14px;
       cursor: pointer;
-      color: white;
-      background: var(--primary);
-      box-shadow: 0 5px 14px rgba(234, 88, 12, 0.25);
+      font-weight: 800;
+      transition: 0.18s;
     }
 
-    .btn:hover {
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn.primary:hover:not(:disabled) {
       background: var(--primary-dark);
     }
 
     .btn.secondary {
-      background: var(--secondary);
-      box-shadow: 0 5px 14px rgba(245, 158, 11, 0.25);
-    }
-
-    .btn.secondary:hover {
-      background: var(--secondary-dark);
-    }
-
-    .btn.gray {
-      background: #a16207;
-      box-shadow: 0 5px 14px rgba(161, 98, 7, 0.22);
+      background: #e0f2fe;
+      color: #075985;
     }
 
     .btn.green {
-      background: #16a34a;
-      box-shadow: 0 5px 14px rgba(22, 163, 74, 0.22);
+      background: #dcfce7;
+      color: #166534;
     }
 
-    .btn.small {
+    .btn.orange {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .btn.red {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .select,
+    .input {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 14px;
       padding: 10px 12px;
-      font-size: 0.92rem;
-      border-radius: 12px;
+      min-width: 220px;
     }
 
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-top: 18px;
+    .input {
+      min-width: 160px;
+      max-width: 220px;
     }
 
-    .counter {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 13px;
-      font-weight: 700;
-    }
-
-    .speech-settings {
-      margin-top: 16px;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: rgba(255, 250, 240, 0.82);
-      box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
-    }
-
-    .speech-settings-title {
-      font-weight: 950;
-      color: var(--brown);
-      margin-bottom: 10px;
-    }
-
-    .speech-control {
-      display: grid;
-      grid-template-columns: 110px 1fr 54px;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .speech-control label {
-      margin: 0;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--primary);
-    }
-
-    .rate-value {
-      text-align: right;
-      font-weight: 950;
-      color: #9a3412;
-    }
-
-    .number-section {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,247,237,0.96));
-      border-radius: 30px;
-      padding: 24px 20px;
-      box-shadow: 0 18px 42px var(--shadow);
-      border: 1px solid var(--border);
-      min-height: 440px;
-    }
-
-    .number-mode-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin: 0 0 18px;
-    }
-
-    .number-mode-card {
-      border: 2px solid transparent;
-      background: #fff7ed;
-      border-radius: 18px;
-      padding: 14px 10px;
-      cursor: pointer;
-      text-align: center;
-      font-weight: 950;
-      color: #7c2d12;
-    }
-
-    .number-mode-card small {
-      display: block;
-      color: var(--muted);
-      font-weight: 700;
-      margin-top: 5px;
-      line-height: 1.4;
-    }
-
-    .number-mode-card.active {
-      border-color: var(--primary);
-      background: #ffedd5;
-      color: var(--primary-dark);
-    }
-
-    .big-value {
-      font-size: 3.2rem;
-      font-weight: 950;
-      text-align: center;
-      margin: 22px 0 8px;
-      color: var(--brown);
-      word-break: break-word;
-    }
-
-    .german-answer {
-      text-align: center;
-      font-size: 1.55rem;
-      font-weight: 950;
-      color: var(--green);
-      margin: 12px 0;
-      line-height: 1.4;
-    }
-
-    .hint {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-top: 8px;
-    }
-
-    .number-options {
-      margin-top: 18px;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255, 247, 237, 0.82);
-    }
-
-    .option-title {
-      font-weight: 950;
-      margin-bottom: 10px;
-      color: var(--brown);
-    }
-
-    .range-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 900;
-      color: #7c2d12;
-      margin-bottom: 6px;
-    }
-
-    input[type="number"] {
-      width: 100%;
-      border: 1px solid #fdba74;
-      border-radius: 12px;
-      padding: 11px 12px;
-      font-size: 1rem;
-      outline: none;
-      background: #fffaf0;
-      color: var(--text);
-    }
-
-    input[type="number"]:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
-    }
-
-    .list-preview {
-      margin-top: 18px;
-      background: rgba(255, 250, 240, 0.82);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: 0 5px 18px rgba(124, 45, 18, 0.08);
-      overflow: hidden;
-    }
-
-    .list-toggle {
-      width: 100%;
-      border: none;
-      background: transparent;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      color: var(--brown);
-      font-size: 1.05rem;
-      font-weight: 950;
-    }
-
-    .list-toggle span {
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 850;
-    }
-
-    .word-list-content {
-      padding: 0 15px 15px;
-      display: none;
-    }
-
-    .word-list-content.open {
-      display: block;
-    }
-
-    .word-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-
-    .word-list-item {
-      border: 1px solid #fdba74;
-      background: #fff7ed;
-      color: #7c2d12;
+    .status-box {
+      margin-top: 12px;
+      padding: 13px;
       border-radius: 16px;
-      padding: 11px 12px;
-      cursor: pointer;
+      background: white;
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .translation-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .translation-box.active {
+      display: block;
+    }
+
+    .translation-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .translation-item:last-child {
+      border-bottom: none;
+    }
+
+    .translation-de {
       font-weight: 850;
-      text-align: left;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 10px;
-      align-items: center;
+      color: #111827;
     }
 
-    .word-list-item:hover {
-      background: #ffedd5;
-      border-color: #fb923c;
+    .translation-zh {
+      color: var(--primary-dark);
+      font-size: 14px;
+      margin-top: 3px;
     }
 
-    .word-list-item.active {
-      background: #fed7aa;
-      border-color: #ea580c;
-    }
-
-    .word-list-index {
-      color: #9a3412;
-      font-weight: 950;
-      font-size: 0.86rem;
-    }
-
-    .word-list-main {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .word-list-main strong {
-      font-size: 1rem;
-      color: #7c2d12;
-    }
-
-    .word-list-main small {
+    .translation-en {
       color: var(--muted);
-      font-weight: 750;
-      line-height: 1.4;
+      font-size: 13px;
     }
 
-    .word-list-article {
-      background: #fffaf0;
-      border: 1px solid #fed7aa;
+    .good {
+      color: var(--green);
+      font-weight: 850;
+    }
+
+    .mid {
+      color: var(--orange);
+      font-weight: 850;
+    }
+
+    .bad {
+      color: var(--red);
+      font-weight: 850;
+    }
+
+    .progress-wrap {
+      margin: 12px 0;
+      background: white;
+      border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 5px 9px;
-      color: #9a3412;
-      font-size: 0.82rem;
-      font-weight: 950;
-      white-space: nowrap;
+      overflow: hidden;
+      height: 14px;
     }
 
-    .empty-result {
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      transition: width 0.25s ease;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 10px 12px;
+      min-width: 120px;
+    }
+
+    .stat-label {
       color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 850;
+    }
+
+    .sound-card {
+      min-height: 220px;
+    }
+
+    .sound-symbol {
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+
+    .tip {
+      padding: 10px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+
+    .example-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .example-chip {
+      border: 1px solid #dbeafe;
+      background: #eff6ff;
+      color: #1e40af;
+      border-radius: 999px;
+      padding: 7px 10px;
       font-weight: 800;
-      padding: 12px;
-      text-align: center;
-      line-height: 1.6;
+      cursor: pointer;
+      font-size: 13px;
     }
 
-    footer {
-      text-align: center;
+    .note {
       color: var(--muted);
-      font-size: 0.82rem;
-      margin: 18px 0 4px;
+      font-size: 13px;
+      margin-top: 12px;
     }
 
-    @media (max-width: 680px) {
-      body {
-        padding: 12px;
-      }
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
 
+    @media (max-width: 520px) {
       header h1 {
-        font-size: 1.55rem;
+        font-size: 23px;
       }
 
-      .tabs {
+      .panel {
+        padding: 14px;
+      }
+
+      .grid {
         grid-template-columns: 1fr;
       }
 
-      .search-row {
-        grid-template-columns: 1fr;
+      .compact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .flashcard,
-      .flashcard-face {
-        min-height: 520px;
+      .large-word .de {
+        font-size: 32px;
       }
 
-      .card-content {
-        min-height: 460px;
+      .question-text {
+        font-size: 21px;
       }
 
-      .word {
-        font-size: 2.35rem;
+      .btn,
+      .select {
+        width: 100%;
       }
 
-      .front-word {
-        font-size: 2.85rem;
-      }
-
-      .translation-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .number-mode-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .controls {
-        grid-template-columns: 1fr;
-      }
-
-      .speak-row {
-        grid-template-columns: 1fr;
-      }
-
-      .range-row {
-        grid-template-columns: 1fr;
-      }
-
-      .speech-control {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .rate-value {
-        text-align: left;
-      }
-
-      .big-value {
-        font-size: 2.5rem;
-      }
-
-      .german-answer {
-        font-size: 1.25rem;
-      }
-
-      .flashcard-face,
-      .number-section {
-        padding: 20px 15px;
-      }
-
-      .word-list-item {
-        grid-template-columns: auto 1fr;
-      }
-
-      .word-list-article {
-        grid-column: 2;
-        width: fit-content;
+      .input {
+        width: 100%;
+        max-width: none;
       }
     }
   </style>
 </head>
-
 <body>
-  <div class="app">
-    <header>
-      <h1>德語單字與數字練習</h1>
-    </header>
+  <header>
+    <h1>德語旅行單字與練習</h1>
+    <p>板塊式學習：生活詞彙、遊客出行對答、冠詞練習、每日 10 題發音、德語難音。點擊德語可播放發音。</p>
+  </header>
 
-    <div class="tabs">
-      <button class="tab-btn active" id="vocabTab" onclick="switchMainSection('vocab')">
-        德語單字
-      </button>
-      <button class="tab-btn" id="numberTab" onclick="switchMainSection('number')">
-        德語數字
-      </button>
-    </div>
+  <main>
+    <nav class="main-nav" id="mainNav">
+      <button class="nav-btn active" data-panel="vocabPanel">生活單字</button>
+      <button class="nav-btn" data-panel="dialoguePanel">遊客出行對答</button>
+      <button class="nav-btn" data-panel="articlePracticePanel">冠詞練習</button>
+      <button class="nav-btn" data-panel="dailyPanel">每日 10 題</button>
+      <button class="nav-btn" data-panel="soundPanel">德語難音</button>
+    </nav>
 
-    <div class="section-title">
-      <div id="sectionName">德語單字</div>
-      <span id="sectionInfo">共 28 張</span>
-    </div>
+    <section class="panel active" id="vocabPanel">
+      <h2>生活常用單字分類</h2>
+      <p class="intro">
+        適合先建立衣、食、住、行的基礎詞彙。名詞卡片會附上冠詞與簡潔說明。點擊卡片可播放德語發音。
+      </p>
 
-    <main id="vocabSection">
-      <section class="search-box">
-        <div class="search-row">
-          <input
-            class="search-input"
-            id="searchInput"
-            type="text"
-            placeholder="搜尋德語、中文、英文或詞性，例如 Tisch / 桌子 / table / Verb"
-            oninput="handleSearch()"
-          />
-          <button class="btn small gray" onclick="clearSearch()">清除</button>
-        </div>
-        <div class="search-result" id="searchResult">
-          可輸入德語、中文、英文、冠詞或詞性搜尋。
-        </div>
-      </section>
+      <div class="sub-tabs" id="categoryTabs"></div>
+      <div class="grid" id="wordGrid"></div>
+    </section>
 
-      <div class="flashcard-wrap">
-        <div class="flashcard" id="flashcard" onclick="flipCard()">
-          <div class="flashcard-face flashcard-front active" id="frontFace">
-            <div class="card-content">
-              <div class="badge-row">
-                <span class="badge" id="frontIndexBadge">1 / 28</span>
-              </div>
+    <section class="panel" id="dialoguePanel">
+      <h2>遊客出行簡易對答</h2>
+      <p class="intro">
+        此板塊偏旅行使用情境。題目與選項只用德語呈現；選完並確認後才會顯示中英對照與解析。
+      </p>
 
-              <div class="front-center">
-                <div class="article-badge" id="frontArticleBadge">der</div>
-                <div class="word front-word" id="word">Tisch</div>
-                <div class="pronunciation" id="pronunciation">
-                  德語發音：der Tisch
-                </div>
-
-                <button class="btn secondary" onclick="event.stopPropagation(); speakVocabWord();">
-                  🔊 發音
-                </button>
-              </div>
-
-              <div class="tap-hint">
-                點擊字卡翻面查看答案。
-              </div>
-            </div>
+      <div class="hero-practice">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">題目</div>
+            <div class="stat-value" id="dialogueNumber">1</div>
           </div>
-
-          <div class="flashcard-face flashcard-back inactive" id="backFace">
-            <div class="card-content">
-              <div>
-                <div class="badge-row">
-                  <span class="badge" id="backIndexBadge">1 / 28</span>
-                  <span class="badge type" id="backTypeBadge">Nomen</span>
-                </div>
-
-                <div class="word" id="backWord">der Tisch</div>
-
-                <div class="translation-grid">
-                  <div class="translation-box">
-                    <strong>中文意思</strong>
-                    <span id="backChinese">桌子</span>
-                  </div>
-                  <div class="translation-box">
-                    <strong>English meaning</strong>
-                    <span id="backEnglish">table</span>
-                  </div>
-                </div>
-
-                <div class="back-type-box" id="backTypeNote">
-                  詞性：Nomen / 名詞 / noun
-                </div>
-
-                <div class="example">
-                  <div class="example-title">例句 Example</div>
-                  <div class="de" id="exampleDe">Der Tisch ist groß.</div>
-                  <div class="zh" id="exampleZh">這張桌子很大。</div>
-                  <div class="en" id="exampleEn">The table is big.</div>
-                </div>
-              </div>
-
-              <div class="tap-hint">
-                再點一次字卡可翻回正面。
-              </div>
-            </div>
+          <div class="stat">
+            <div class="stat-label">正確</div>
+            <div class="stat-value" id="dialogueScore">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">情境</div>
+            <div class="stat-value" id="dialogueScene">Café</div>
           </div>
         </div>
-      </div>
 
-      <div class="speak-row">
-        <button class="btn secondary" onclick="event.stopPropagation(); speakVocabWord();">
-          🔊 單字發音
-        </button>
-        <button class="btn secondary" onclick="event.stopPropagation(); speakVocabExample();">
-          🔊 例句發音
-        </button>
-      </div>
-
-      <div class="controls">
-        <button class="btn gray" onclick="prevCard()">上一張</button>
-        <button class="btn green" onclick="randomCard()">隨機單字</button>
-        <button class="btn gray" onclick="nextCard()">下一張</button>
-      </div>
-
-      <div class="speech-settings">
-        <div class="speech-settings-title">語速設定</div>
-        <div class="speech-control">
-          <label for="speechRate">發音速度</label>
-          <input
-            id="speechRate"
-            type="range"
-            min="0.5"
-            max="1.5"
-            step="0.05"
-            value="0.85"
-            oninput="updateSpeechRateLabel()"
-          />
-          <div class="rate-value" id="speechRateValue">0.85x</div>
+        <div class="dialogue-box clickable" id="dialogueQuestionCard" title="點擊播放問題">
+          <span class="dialogue-label" id="dialogueSceneBadge">Café</span>
+          <div class="question-text" id="dialogueQuestion">Willkommen! Was möchten Sie trinken?</div>
         </div>
-      </div>
 
-      <div class="counter" id="counter">第 1 / 28 張</div>
-    </main>
+        <div class="choice-list" id="dialogueChoices"></div>
 
-    <main class="number-section hidden" id="numberSection">
-      <div class="number-mode-grid">
-        <button class="number-mode-card active" id="modeNumber" onclick="switchNumberMode('number')">
-          隨機數字
-          <small>整數，不含小數 / 分數</small>
-        </button>
-
-        <button class="number-mode-card" id="modeYear" onclick="switchNumberMode('year')">
-          隨機年份
-          <small>例如 1998、2024</small>
-        </button>
-
-        <button class="number-mode-card" id="modeMonth" onclick="switchNumberMode('month')">
-          隨機月份
-          <small>Januar 到 Dezember</small>
-        </button>
-      </div>
-
-      <div>
-        <div class="badge" id="numberBadge">隨機數字</div>
-        <div class="big-value" id="numberValue">42</div>
-        <div class="german-answer" id="numberGerman">zweiundvierzig</div>
-        <div class="hint" id="numberHint">
-          點擊「產生新的內容」可練習不同德語數字。
+        <div class="button-row">
+          <button class="btn primary" id="confirmDialogueBtn" disabled>確認答案</button>
+          <button class="btn secondary" id="nextDialogueBtn" disabled>下一題</button>
         </div>
-      </div>
 
-      <div class="number-options" id="numberOptions">
-        <div class="option-title">隨機數字範圍</div>
-        <div class="range-row">
-          <div>
-            <label for="minNumber">最小值</label>
-            <input id="minNumber" type="number" value="1" step="1" />
-          </div>
-          <div>
-            <label for="maxNumber">最大值</label>
-            <input id="maxNumber" type="number" value="9999" step="1" />
-          </div>
+        <div class="translation-box" id="dialogueResultBox">
+          <h3 id="dialogueResultTitle">結果</h3>
+          <div id="dialogueResultContent"></div>
         </div>
-        <div class="hint">
-          只會產生整數，不會產生小數或分數。
-        </div>
-      </div>
 
-      <div class="speak-row">
-        <button class="btn secondary" onclick="speakNumberPractice()">🔊 德語發音</button>
-        <button class="btn" onclick="generateNumberPractice()">產生新的內容</button>
-      </div>
-
-      <div class="speech-settings">
-        <div class="speech-settings-title">語速設定</div>
-        <div class="speech-control">
-          <label for="speechRateNumber">發音速度</label>
-          <input
-            id="speechRateNumber"
-            type="range"
-            min="0.5"
-            max="1.5"
-            step="0.05"
-            value="0.85"
-            oninput="syncSpeechRateFromNumber()"
-          />
-          <div class="rate-value" id="speechRateValueNumber">0.85x</div>
-        </div>
-      </div>
-    </main>
-
-    <section class="list-preview" id="previewSection">
-      <button class="list-toggle" onclick="toggleWordList()">
-        <div>單字列表</div>
-        <span id="listToggleText">展開 ▼</span>
-      </button>
-      <div class="word-list-content" id="wordListContent">
-        <div class="word-list" id="wordList"></div>
+        <p class="note">
+          小提醒：點問題或選項名片可播放語音；選項需要按「確認答案」才會判定。
+        </p>
       </div>
     </section>
 
-    <footer>
-      German Flashcards for GitHub Pages
-    </footer>
-  </div>
+    <section class="panel" id="articlePracticePanel">
+      <h2>冠詞練習</h2>
+      <p class="intro">
+        看見名詞後，輸入它的定冠詞：der、die 或 das。送出後會顯示簡潔說明。
+      </p>
+
+      <div class="hero-practice">
+        <div class="large-word">
+          <div class="de">
+            <span id="articleBlank">___</span>
+            <span id="articleNoun">Wasser</span>
+          </div>
+          <div class="zh" id="articleZh">水</div>
+          <div class="en" id="articleEn">water</div>
+        </div>
+
+        <div class="button-row">
+          <input class="input" id="articleInput" type="text" placeholder="輸入 der / die / das" autocomplete="off" />
+          <button class="btn primary" id="checkArticleBtn">檢查答案</button>
+          <button class="btn secondary" id="playArticleNounBtn">播放名詞</button>
+          <button class="btn orange" id="nextArticleBtn">下一題</button>
+        </div>
+
+        <div class="status-box">
+          <div><strong>結果：</strong><span id="articleResult">尚未作答</span></div>
+          <div><strong>說明：</strong><span id="articleExplanation">請輸入 der、die 或 das。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="dailyPanel">
+      <h2>每日 10 題發音練習</h2>
+      <p class="intro">
+        系統會隨機抽 10 題。每題先聽標準發音，再按「開始錄音」讀出來。完成後可看到分數。
+      </p>
+
+      <div class="hero-practice">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">目前題數</div>
+            <div class="stat-value" id="dailyProgressText">1 / 10</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">答對題數</div>
+            <div class="stat-value" id="dailyScoreText">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">狀態</div>
+            <div class="stat-value" id="dailyStateText">準備</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-bar" id="dailyProgressBar"></div>
+        </div>
+
+        <div class="large-word">
+          <div class="de" id="dailyDe">Wasser</div>
+          <div class="zh" id="dailyZh">水</div>
+          <div class="en" id="dailyEn">water</div>
+        </div>
+
+        <div class="button-row">
+          <button class="btn secondary" id="playDailyBtn">播放標準發音</button>
+          <button class="btn primary" id="recordDailyBtn">開始錄音</button>
+          <button class="btn green" id="nextDailyBtn">下一題</button>
+          <button class="btn orange" id="restartDailyBtn">重新產生 10 題</button>
+        </div>
+
+        <div class="status-box">
+          <div><strong>辨識結果：</strong><span id="dailyRecognized">尚未開始</span></div>
+          <div><strong>評估：</strong><span id="dailyFeedback">請先播放標準發音，然後開始錄音。</span></div>
+        </div>
+
+        <p class="note">
+          注意：瀏覽器語音辨識只能做基礎判斷。若系統聽成正確單字，通常代表發音方向接近；但它無法精準分析舌位、口型或重音。
+        </p>
+      </div>
+    </section>
+
+    <section class="panel" id="soundPanel">
+      <h2>德語難音練習</h2>
+      <p class="intro">
+        這裡集中練習華語使用者常覺得不直覺的德語發音。點擊例字可播放。
+      </p>
+
+      <div class="compact-grid" id="soundGrid"></div>
+    </section>
+  </main>
 
   <script>
-    const vocabCards = [
+    const categories = [
       {
-        displayWord: "Tisch",
-        fullWord: "der Tisch",
-        article: "der",
-        type: "Nomen / 名詞 / noun",
-        chinese: "桌子",
-        english: "table",
-        exampleDe: "Der Tisch ist groß.",
-        exampleZh: "這張桌子很大。",
-        exampleEn: "The table is big."
+        id: "food",
+        name: "食物 / 飲品",
+        words: [
+          {
+            de: "das Wasser",
+            bare: "Wasser",
+            zh: "水",
+            en: "water",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。許多物質名詞常為中性；Wasser 固定用 das。"
+          },
+          {
+            de: "der Kaffee",
+            bare: "Kaffee",
+            zh: "咖啡",
+            en: "coffee",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。許多飲品名稱慣用陽性；Kaffee 固定用 der。"
+          },
+          {
+            de: "der Tee",
+            bare: "Tee",
+            zh: "茶",
+            en: "tea",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。飲品名稱中常見陽性；Tee 固定用 der。"
+          },
+          {
+            de: "das Brot",
+            bare: "Brot",
+            zh: "麵包",
+            en: "bread",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Brot 是固定中性，記作 das Brot。"
+          },
+          {
+            de: "der Reis",
+            bare: "Reis",
+            zh: "米飯 / 米",
+            en: "rice",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Reis 固定用 der。"
+          },
+          {
+            de: "die Milch",
+            bare: "Milch",
+            zh: "牛奶",
+            en: "milk",
+            type: "noun",
+            article: "die",
+            reason: "陰性名詞。Milch 固定用 die，需直接記憶。"
+          },
+          {
+            de: "der Käse",
+            bare: "Käse",
+            zh: "起司",
+            en: "cheese",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Käse 固定用 der。"
+          },
+          {
+            de: "das Ei",
+            bare: "Ei",
+            zh: "雞蛋",
+            en: "egg",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Ei 固定用 das。"
+          },
+          {
+            de: "das Fleisch",
+            bare: "Fleisch",
+            zh: "肉",
+            en: "meat",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Fleisch 是物質名詞，固定用 das。"
+          },
+          {
+            de: "der Fisch",
+            bare: "Fisch",
+            zh: "魚",
+            en: "fish",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Fisch 固定用 der。"
+          },
+          {
+            de: "das Gemüse",
+            bare: "Gemüse",
+            zh: "蔬菜",
+            en: "vegetables",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Ge- 開頭的集合名詞常為中性。"
+          },
+          {
+            de: "das Obst",
+            bare: "Obst",
+            zh: "水果",
+            en: "fruit",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Obst 作集合概念，固定用 das。"
+          },
+          {
+            de: "der Apfel",
+            bare: "Apfel",
+            zh: "蘋果",
+            en: "apple",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Apfel 固定用 der。"
+          }
+        ]
       },
       {
-        displayWord: "Stuhl",
-        fullWord: "der Stuhl",
-        article: "der",
-        type: "Nomen / 名詞 / noun",
-        chinese: "椅子",
-        english: "chair",
-        exampleDe: "Der Stuhl ist bequem.",
-        exampleZh: "這張椅子很舒服。",
-        exampleEn: "The chair is comfortable."
+        id: "clothes",
+        name: "衣物",
+        words: [
+          {
+            de: "die Kleidung",
+            bare: "Kleidung",
+            zh: "衣服 / 服裝",
+            en: "clothing",
+            type: "noun",
+            article: "die",
+            reason: "-ung 結尾的名詞幾乎都是陰性，所以是 die Kleidung。"
+          },
+          {
+            de: "das Hemd",
+            bare: "Hemd",
+            zh: "襯衫",
+            en: "shirt",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Hemd 固定用 das。"
+          },
+          {
+            de: "das T-Shirt",
+            bare: "T-Shirt",
+            zh: "T 恤",
+            en: "T-shirt",
+            type: "noun",
+            article: "das",
+            reason: "外來詞與 Shirt 類服飾常作中性，記作 das T-Shirt。"
+          },
+          {
+            de: "die Hose",
+            bare: "Hose",
+            zh: "褲子",
+            en: "pants",
+            type: "noun",
+            article: "die",
+            reason: "陰性名詞。-e 結尾的名詞常見陰性，Hose 是 die。"
+          },
+          {
+            de: "der Rock",
+            bare: "Rock",
+            zh: "裙子",
+            en: "skirt",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Rock 固定用 der。"
+          },
+          {
+            de: "das Kleid",
+            bare: "Kleid",
+            zh: "洋裝",
+            en: "dress",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Kleid 固定用 das。"
+          },
+          {
+            de: "die Jacke",
+            bare: "Jacke",
+            zh: "外套",
+            en: "jacket",
+            type: "noun",
+            article: "die",
+            reason: "-e 結尾且表示物品的名詞常見陰性；Jacke 是 die。"
+          },
+          {
+            de: "der Mantel",
+            bare: "Mantel",
+            zh: "大衣",
+            en: "coat",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Mantel 固定用 der。"
+          },
+          {
+            de: "die Schuhe",
+            bare: "Schuhe",
+            zh: "鞋子",
+            en: "shoes",
+            type: "noun",
+            article: "die",
+            reason: "這裡是複數。德語複數定冠詞一律用 die。"
+          },
+          {
+            de: "die Tasche",
+            bare: "Tasche",
+            zh: "包包",
+            en: "bag",
+            type: "noun",
+            article: "die",
+            reason: "-e 結尾常見陰性；Tasche 固定用 die。"
+          }
+        ]
       },
       {
-        displayWord: "Computer",
-        fullWord: "der Computer",
-        article: "der",
-        type: "Nomen / 名詞 / noun",
-        chinese: "電腦",
-        english: "computer",
-        exampleDe: "Der Computer ist neu.",
-        exampleZh: "這台電腦是新的。",
-        exampleEn: "The computer is new."
+        id: "home",
+        name: "居家 / 住宿",
+        words: [
+          {
+            de: "das Haus",
+            bare: "Haus",
+            zh: "房子",
+            en: "house",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Haus 固定用 das。"
+          },
+          {
+            de: "die Wohnung",
+            bare: "Wohnung",
+            zh: "公寓 / 住處",
+            en: "apartment",
+            type: "noun",
+            article: "die",
+            reason: "-ung 結尾幾乎都是陰性，所以是 die Wohnung。"
+          },
+          {
+            de: "das Zimmer",
+            bare: "Zimmer",
+            zh: "房間",
+            en: "room",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Zimmer 固定用 das。"
+          },
+          {
+            de: "die Küche",
+            bare: "Küche",
+            zh: "廚房",
+            en: "kitchen",
+            type: "noun",
+            article: "die",
+            reason: "-e 結尾常見陰性；Küche 固定用 die。"
+          },
+          {
+            de: "das Bad",
+            bare: "Bad",
+            zh: "浴室",
+            en: "bathroom",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Bad 固定用 das。"
+          },
+          {
+            de: "das Bett",
+            bare: "Bett",
+            zh: "床",
+            en: "bed",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Bett 固定用 das。"
+          },
+          {
+            de: "der Tisch",
+            bare: "Tisch",
+            zh: "桌子",
+            en: "table",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Tisch 固定用 der。"
+          },
+          {
+            de: "der Stuhl",
+            bare: "Stuhl",
+            zh: "椅子",
+            en: "chair",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Stuhl 固定用 der。"
+          },
+          {
+            de: "die Tür",
+            bare: "Tür",
+            zh: "門",
+            en: "door",
+            type: "noun",
+            article: "die",
+            reason: "陰性名詞。Tür 固定用 die。"
+          },
+          {
+            de: "das Fenster",
+            bare: "Fenster",
+            zh: "窗戶",
+            en: "window",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Fenster 固定用 das。"
+          },
+          {
+            de: "der Schlüssel",
+            bare: "Schlüssel",
+            zh: "鑰匙",
+            en: "key",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Schlüssel 固定用 der。"
+          }
+        ]
       },
       {
-        displayWord: "Maus",
-        fullWord: "die Maus",
-        article: "die",
-        type: "Nomen / 名詞 / noun",
-        chinese: "滑鼠；老鼠",
-        english: "mouse",
-        exampleDe: "Die Maus liegt neben dem Computer.",
-        exampleZh: "滑鼠在電腦旁邊。",
-        exampleEn: "The mouse is next to the computer."
+        id: "transport",
+        name: "交通 / 出行",
+        words: [
+          {
+            de: "der Bus",
+            bare: "Bus",
+            zh: "公車",
+            en: "bus",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。交通工具名詞常見陽性；Bus 是 der。"
+          },
+          {
+            de: "die Bahn",
+            bare: "Bahn",
+            zh: "鐵路 / 軌道交通",
+            en: "railway",
+            type: "noun",
+            article: "die",
+            reason: "陰性名詞。Bahn 固定用 die。"
+          },
+          {
+            de: "der Zug",
+            bare: "Zug",
+            zh: "火車",
+            en: "train",
+            type: "noun",
+            article: "der",
+            reason: "陽性名詞。Zug 固定用 der。"
+          },
+          {
+            de: "die U-Bahn",
+            bare: "U-Bahn",
+            zh: "地鐵",
+            en: "subway",
+            type: "noun",
+            article: "die",
+            reason: "Bahn 是陰性，複合詞性別看最後一個詞，所以是 die U-Bahn。"
+          },
+          {
+            de: "die Straßenbahn",
+            bare: "Straßenbahn",
+            zh: "路面電車",
+            en: "tram",
+            type: "noun",
+            article: "die",
+            reason: "複合詞最後是 Bahn；Bahn 是 die，所以 Straßenbahn 也是 die。"
+          },
+          {
+            de: "das Auto",
+            bare: "Auto",
+            zh: "汽車",
+            en: "car",
+            type: "noun",
+            article: "das",
+            reason: "中性名詞。Auto 固定用 das。"
+          },
+          {
+            de: "das Fahrrad",
+            bare: "Fahrrad",
+            zh: "自行車",
+            en: "bicycle",
+            type: "noun",
+            article: "das",
+            reason: "複合詞最後是 Rad；Rad 是 das，所以 Fahrrad 是 das。"
+          },
+          {
+            de: "das Taxi",
+            bare: "Taxi",
+            zh: "計程車",
+            en: "taxi",
+            type: "noun",
+            article: "das",
+            reason: "外來交通工具名詞 Taxi 固定作中性，用 das。"
+          },
+          {
+            de: "der Flughafen",
+            bare: "Flughafen",
+            zh: "機場",
+            en: "airport",
+            type: "noun",
+            article: "der",
+            reason: "複合詞最後是 Hafen；Hafen 是 der，所以 Flughafen 是 der。"
+          },
+          {
+            de: "der Bahnhof",
+            bare: "Bahnhof",
+            zh: "火車站",
+            en: "train station",
+            type: "noun",
+            article: "der",
+            reason: "複合詞最後是 Hof；Bahnhof 固定用 der。"
+          },
+          {
+            de: "die Fahrkarte",
+            bare: "Fahrkarte",
+            zh: "車票",
+            en: "ticket",
+            type: "noun",
+            article: "die",
+            reason: "複合詞最後是 Karte；Karte 是 die，所以 Fahrkarte 是 die。"
+          }
+        ]
       },
       {
-        displayWord: "Wasser",
-        fullWord: "das Wasser",
-        article: "das",
-        type: "Nomen / 名詞 / noun",
-        chinese: "水",
-        english: "water",
-        exampleDe: "Ich trinke Wasser.",
-        exampleZh: "我喝水。",
-        exampleEn: "I drink water."
+        id: "daily",
+        name: "日常動作",
+        words: [
+          { de: "essen", bare: "essen", zh: "吃", en: "to eat", type: "verb" },
+          { de: "trinken", bare: "trinken", zh: "喝", en: "to drink", type: "verb" },
+          { de: "schlafen", bare: "schlafen", zh: "睡覺", en: "to sleep", type: "verb" },
+          { de: "aufstehen", bare: "aufstehen", zh: "起床", en: "to get up", type: "verb" },
+          { de: "duschen", bare: "duschen", zh: "洗澡", en: "to shower", type: "verb" },
+          { de: "waschen", bare: "waschen", zh: "洗", en: "to wash", type: "verb" },
+          { de: "kaufen", bare: "kaufen", zh: "買", en: "to buy", type: "verb" },
+          { de: "bezahlen", bare: "bezahlen", zh: "付款", en: "to pay", type: "verb" },
+          { de: "sprechen", bare: "sprechen", zh: "說話", en: "to speak", type: "verb" },
+          { de: "hören", bare: "hören", zh: "聽", en: "to hear", type: "verb" },
+          { de: "lesen", bare: "lesen", zh: "閱讀", en: "to read", type: "verb" },
+          { de: "schreiben", bare: "schreiben", zh: "寫", en: "to write", type: "verb" },
+          { de: "lernen", bare: "lernen", zh: "學習", en: "to learn", type: "verb" },
+          { de: "arbeiten", bare: "arbeiten", zh: "工作", en: "to work", type: "verb" },
+          { de: "warten", bare: "warten", zh: "等待", en: "to wait", type: "verb" }
+        ]
       },
       {
-        displayWord: "Lehrer",
-        fullWord: "der Lehrer",
-        article: "der",
-        type: "Nomen / 名詞 / noun",
-        chinese: "老師，男老師",
-        english: "teacher, male teacher",
-        exampleDe: "Der Lehrer erklärt das Wort.",
-        exampleZh: "老師解釋這個單字。",
-        exampleEn: "The teacher explains the word."
-      },
-      {
-        displayWord: "Lehrerin",
-        fullWord: "die Lehrerin",
-        article: "die",
-        type: "Nomen / 名詞 / noun",
-        chinese: "老師，女老師",
-        english: "teacher, female teacher",
-        exampleDe: "Die Lehrerin spricht Deutsch.",
-        exampleZh: "老師說德語。",
-        exampleEn: "The teacher speaks German."
-      },
-      {
-        displayWord: "Schüler",
-        fullWord: "der Schüler",
-        article: "der",
-        type: "Nomen / 名詞 / noun",
-        chinese: "學生，男學生",
-        english: "student, male student",
-        exampleDe: "Der Schüler lernt Deutsch.",
-        exampleZh: "這位學生學德語。",
-        exampleEn: "The student learns German."
-      },
-      {
-        displayWord: "Schülerin",
-        fullWord: "die Schülerin",
-        article: "die",
-        type: "Nomen / 名詞 / noun",
-        chinese: "學生，女學生",
-        english: "student, female student",
-        exampleDe: "Die Schülerin schreibt einen Satz.",
-        exampleZh: "這位學生寫一個句子。",
-        exampleEn: "The student writes a sentence."
-      },
-      {
-        displayWord: "danke",
-        fullWord: "danke",
-        article: "Interjektion",
-        type: "Interjektion / 感嘆詞 / interjection",
-        chinese: "謝謝",
-        english: "thank you",
-        exampleDe: "Danke für deine Hilfe.",
-        exampleZh: "謝謝你的幫助。",
-        exampleEn: "Thank you for your help."
-      },
-      {
-        displayWord: "Farbe",
-        fullWord: "die Farbe",
-        article: "die",
-        type: "Nomen / 名詞 / noun",
-        chinese: "顏色",
-        english: "color",
-        exampleDe: "Welche Farbe magst du?",
-        exampleZh: "你喜歡哪一種顏色？",
-        exampleEn: "Which color do you like?"
-      },
-      {
-        displayWord: "Band",
-        fullWord: "die Band",
-        article: "die",
-        type: "Nomen / 名詞 / noun",
-        chinese: "樂隊",
-        english: "band",
-        exampleDe: "Die Band spielt heute Abend.",
-        exampleZh: "這個樂隊今晚演出。",
-        exampleEn: "The band is playing tonight."
-      },
-      {
-        displayWord: "Bass",
-        fullWord: "der Bass",
-        article: "der",
-        type: "Nomen / 名詞 / noun",
-        chinese: "貝斯；低音",
-        english: "bass",
-        exampleDe: "Er spielt Bass in einer Band.",
-        exampleZh: "他在一個樂隊裡彈貝斯。",
-        exampleEn: "He plays bass in a band."
-      },
-      {
-        displayWord: "Essen",
-        fullWord: "das Essen",
-        article: "das",
-        type: "Nomen / 名詞 / noun",
-        chinese: "食物；餐點",
-        english: "food, meal",
-        exampleDe: "Das Essen schmeckt gut.",
-        exampleZh: "這個食物很好吃。",
-        exampleEn: "The food tastes good."
-      },
-      {
-        displayWord: "Nudeln",
-        fullWord: "die Nudeln",
-        article: "die Pl.",
-        type: "Nomen Plural / 複數名詞 / plural noun",
-        chinese: "麵條",
-        english: "noodles",
-        exampleDe: "Ich esse gern Nudeln.",
-        exampleZh: "我喜歡吃麵條。",
-        exampleEn: "I like eating noodles."
-      },
-      {
-        displayWord: "glücklich",
-        fullWord: "glücklich",
-        article: "Adjektiv",
-        type: "Adjektiv / 形容詞 / adjective",
-        chinese: "開心的；幸福的",
-        english: "happy",
-        exampleDe: "Ich bin heute glücklich.",
-        exampleZh: "我今天很開心。",
-        exampleEn: "I am happy today."
-      },
-      {
-        displayWord: "traurig",
-        fullWord: "traurig",
-        article: "Adjektiv",
-        type: "Adjektiv / 形容詞 / adjective",
-        chinese: "傷心的；難過的",
-        english: "sad",
-        exampleDe: "Sie ist traurig.",
-        exampleZh: "她很傷心。",
-        exampleEn: "She is sad."
-      },
-      {
-        displayWord: "Buch",
-        fullWord: "das Buch",
-        article: "das",
-        type: "Nomen / 名詞 / noun",
-        chinese: "書本；書",
-        english: "book",
-        exampleDe: "Das Buch liegt auf dem Tisch.",
-        exampleZh: "這本書在桌子上。",
-        exampleEn: "The book is on the table."
-      },
-      {
-        displayWord: "stehen",
-        fullWord: "stehen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "站立；站著",
-        english: "to stand",
-        exampleDe: "Ich stehe neben dem Stuhl.",
-        exampleZh: "我站在椅子旁邊。",
-        exampleEn: "I am standing next to the chair."
-      },
-      {
-        displayWord: "schlafen",
-        fullWord: "schlafen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "睡覺",
-        english: "to sleep",
-        exampleDe: "Das Kind schläft im Bett.",
-        exampleZh: "孩子在床上睡覺。",
-        exampleEn: "The child is sleeping in the bed."
-      },
-      {
-        displayWord: "gehen",
-        fullWord: "gehen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "走；去；走路",
-        english: "to go, to walk",
-        exampleDe: "Wir gehen zur Schule.",
-        exampleZh: "我們走路去學校。",
-        exampleEn: "We walk to school."
-      },
-      {
-        displayWord: "sich setzen",
-        fullWord: "sich setzen",
-        article: "Verb",
-        type: "Reflexives Verb / 反身動詞 / reflexive verb",
-        chinese: "坐下",
-        english: "to sit down",
-        exampleDe: "Ich setze mich auf den Stuhl.",
-        exampleZh: "我坐到椅子上。",
-        exampleEn: "I sit down on the chair."
-      },
-      {
-        displayWord: "essen",
-        fullWord: "essen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "吃",
-        english: "to eat",
-        exampleDe: "Ich esse Brot.",
-        exampleZh: "我吃麵包。",
-        exampleEn: "I eat bread."
-      },
-      {
-        displayWord: "trinken",
-        fullWord: "trinken",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "喝",
-        english: "to drink",
-        exampleDe: "Ich trinke Wasser.",
-        exampleZh: "我喝水。",
-        exampleEn: "I drink water."
-      },
-      {
-        displayWord: "kommen",
-        fullWord: "kommen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "來",
-        english: "to come",
-        exampleDe: "Ich komme aus Taiwan.",
-        exampleZh: "我來自台灣。",
-        exampleEn: "I come from Taiwan."
-      },
-      {
-        displayWord: "lernen",
-        fullWord: "lernen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "學習",
-        english: "to learn",
-        exampleDe: "Ich lerne Deutsch.",
-        exampleZh: "我學德語。",
-        exampleEn: "I learn German."
-      },
-      {
-        displayWord: "sprechen",
-        fullWord: "sprechen",
-        article: "Verb",
-        type: "Verb / 動詞 / verb",
-        chinese: "說；說話",
-        english: "to speak",
-        exampleDe: "Ich spreche Deutsch.",
-        exampleZh: "我說德語。",
-        exampleEn: "I speak German."
-      },
-      {
-        displayWord: "schön",
-        fullWord: "schön",
-        article: "Adjektiv",
-        type: "Adjektiv / 形容詞 / adjective",
-        chinese: "漂亮的；美好的",
-        english: "beautiful, nice",
-        exampleDe: "Das Wetter ist schön.",
-        exampleZh: "天氣很好。",
-        exampleEn: "The weather is nice."
+        id: "adjectives",
+        name: "常用形容詞",
+        words: [
+          { de: "gut", bare: "gut", zh: "好的", en: "good", type: "adjective" },
+          { de: "schlecht", bare: "schlecht", zh: "壞的", en: "bad", type: "adjective" },
+          { de: "groß", bare: "groß", zh: "大的 / 高的", en: "big / tall", type: "adjective" },
+          { de: "klein", bare: "klein", zh: "小的", en: "small", type: "adjective" },
+          { de: "neu", bare: "neu", zh: "新的", en: "new", type: "adjective" },
+          { de: "alt", bare: "alt", zh: "舊的 / 老的", en: "old", type: "adjective" },
+          { de: "teuer", bare: "teuer", zh: "貴的", en: "expensive", type: "adjective" },
+          { de: "billig", bare: "billig", zh: "便宜的", en: "cheap", type: "adjective" },
+          { de: "schnell", bare: "schnell", zh: "快的", en: "fast", type: "adjective" },
+          { de: "langsam", bare: "langsam", zh: "慢的", en: "slow", type: "adjective" },
+          { de: "warm", bare: "warm", zh: "溫暖的", en: "warm", type: "adjective" },
+          { de: "kalt", bare: "kalt", zh: "冷的", en: "cold", type: "adjective" },
+          { de: "heiß", bare: "heiß", zh: "熱的", en: "hot", type: "adjective" },
+          { de: "müde", bare: "müde", zh: "累的", en: "tired", type: "adjective" },
+          { de: "wichtig", bare: "wichtig", zh: "重要的", en: "important", type: "adjective" }
+        ]
       }
     ];
 
-    const months = [
-      { value: 1, german: "Januar", chinese: "一月", english: "January" },
-      { value: 2, german: "Februar", chinese: "二月", english: "February" },
-      { value: 3, german: "März", chinese: "三月", english: "March" },
-      { value: 4, german: "April", chinese: "四月", english: "April" },
-      { value: 5, german: "Mai", chinese: "五月", english: "May" },
-      { value: 6, german: "Juni", chinese: "六月", english: "June" },
-      { value: 7, german: "Juli", chinese: "七月", english: "July" },
-      { value: 8, german: "August", chinese: "八月", english: "August" },
-      { value: 9, german: "September", chinese: "九月", english: "September" },
-      { value: 10, german: "Oktober", chinese: "十月", english: "October" },
-      { value: 11, german: "November", chinese: "十一月", english: "November" },
-      { value: 12, german: "Dezember", chinese: "十二月", english: "December" }
+    const dialogueQuestions = [
+      {
+        scene: "Café",
+        question: "Willkommen! Was möchten Sie trinken?",
+        questionZh: "歡迎光臨！您想喝點什麼？",
+        questionEn: "Welcome! What would you like to drink?",
+        correctIndex: 0,
+        choices: [
+          {
+            de: "Ich hätte gern einen Eiskaffee.",
+            zh: "我想要一杯冰咖啡。",
+            en: "I would like an iced coffee."
+          },
+          {
+            de: "Mir geht es heute gut, und Ihnen?",
+            zh: "我今天很好，您呢？",
+            en: "I am doing well today, and you?"
+          },
+          {
+            de: "Ich möchte eine Kiste Äpfel kaufen.",
+            zh: "我想買一箱蘋果。",
+            en: "I would like to buy a crate of apples."
+          }
+        ],
+        explanation: "問題是在咖啡店問你想喝什麼，所以回答飲品最合適。"
+      },
+      {
+        scene: "Bahnhof",
+        question: "Guten Tag. Wohin möchten Sie fahren?",
+        questionZh: "您好。您想去哪裡？",
+        questionEn: "Good day. Where would you like to go?",
+        correctIndex: 1,
+        choices: [
+          {
+            de: "Ich nehme ein Stück Kuchen.",
+            zh: "我要一塊蛋糕。",
+            en: "I will take a piece of cake."
+          },
+          {
+            de: "Ich möchte nach Berlin fahren.",
+            zh: "我想去柏林。",
+            en: "I would like to go to Berlin."
+          },
+          {
+            de: "Das Zimmer ist sehr sauber.",
+            zh: "這個房間很乾淨。",
+            en: "The room is very clean."
+          }
+        ],
+        explanation: "Wohin 表示去哪裡。回答目的地 nach Berlin 最自然。"
+      },
+      {
+        scene: "Hotel",
+        question: "Haben Sie eine Reservierung?",
+        questionZh: "您有預訂嗎？",
+        questionEn: "Do you have a reservation?",
+        correctIndex: 2,
+        choices: [
+          {
+            de: "Ich brauche zwei Fahrkarten.",
+            zh: "我需要兩張車票。",
+            en: "I need two tickets."
+          },
+          {
+            de: "Ich möchte bar bezahlen.",
+            zh: "我想付現金。",
+            en: "I would like to pay in cash."
+          },
+          {
+            de: "Ja, ich habe eine Reservierung auf den Namen Chen.",
+            zh: "有，我有一個以 Chen 為名的預訂。",
+            en: "Yes, I have a reservation under the name Chen."
+          }
+        ],
+        explanation: "飯店櫃台問是否有預訂，回答 Ja 並提供名字最合適。"
+      },
+      {
+        scene: "Restaurant",
+        question: "Möchten Sie die Speisekarte sehen?",
+        questionZh: "您想看菜單嗎？",
+        questionEn: "Would you like to see the menu?",
+        correctIndex: 0,
+        choices: [
+          {
+            de: "Ja, bitte.",
+            zh: "好的，麻煩您。",
+            en: "Yes, please."
+          },
+          {
+            de: "Ich fahre mit der U-Bahn.",
+            zh: "我搭地鐵。",
+            en: "I am taking the subway."
+          },
+          {
+            de: "Der Schlüssel ist im Zimmer.",
+            zh: "鑰匙在房間裡。",
+            en: "The key is in the room."
+          }
+        ],
+        explanation: "對方問是否要看菜單，Ja, bitte 是簡單自然的回答。"
+      },
+      {
+        scene: "Bäckerei",
+        question: "Was darf es sein?",
+        questionZh: "您要點什麼？",
+        questionEn: "What would you like?",
+        correctIndex: 1,
+        choices: [
+          {
+            de: "Ich habe ein Zimmer reserviert.",
+            zh: "我訂了一個房間。",
+            en: "I have reserved a room."
+          },
+          {
+            de: "Ich hätte gern ein Brötchen und einen Kaffee.",
+            zh: "我想要一個小麵包和一杯咖啡。",
+            en: "I would like a bread roll and a coffee."
+          },
+          {
+            de: "Der Zug fährt um acht Uhr.",
+            zh: "火車八點開。",
+            en: "The train leaves at eight o'clock."
+          }
+        ],
+        explanation: "在麵包店聽到 Was darf es sein? 通常是在問你要買什麼。"
+      },
+      {
+        scene: "Apotheke",
+        question: "Wie kann ich Ihnen helfen?",
+        questionZh: "我可以怎麼幫您？",
+        questionEn: "How can I help you?",
+        correctIndex: 2,
+        choices: [
+          {
+            de: "Ich suche den Bahnsteig drei.",
+            zh: "我在找三號月台。",
+            en: "I am looking for platform three."
+          },
+          {
+            de: "Ich möchte einen Tisch für zwei Personen.",
+            zh: "我想要一張兩人桌。",
+            en: "I would like a table for two people."
+          },
+          {
+            de: "Ich brauche etwas gegen Kopfschmerzen.",
+            zh: "我需要一些治頭痛的藥。",
+            en: "I need something for a headache."
+          }
+        ],
+        explanation: "Apotheke 是藥局。需要頭痛藥的回答最符合情境。"
+      },
+      {
+        scene: "Supermarkt",
+        question: "Brauchen Sie eine Tüte?",
+        questionZh: "您需要一個袋子嗎？",
+        questionEn: "Do you need a bag?",
+        correctIndex: 0,
+        choices: [
+          {
+            de: "Ja, bitte.",
+            zh: "好的，麻煩您。",
+            en: "Yes, please."
+          },
+          {
+            de: "Ich komme aus Taiwan.",
+            zh: "我來自台灣。",
+            en: "I come from Taiwan."
+          },
+          {
+            de: "Das Hotel ist links.",
+            zh: "飯店在左邊。",
+            en: "The hotel is on the left."
+          }
+        ],
+        explanation: "Tüte 是袋子。收銀員問你需不需要袋子，Ja, bitte 可直接使用。"
+      },
+      {
+        scene: "Straße",
+        question: "Entschuldigung, wo ist der Bahnhof?",
+        questionZh: "不好意思，火車站在哪裡？",
+        questionEn: "Excuse me, where is the train station?",
+        correctIndex: 1,
+        choices: [
+          {
+            de: "Ich hätte gern Wasser ohne Gas.",
+            zh: "我想要無氣泡水。",
+            en: "I would like still water."
+          },
+          {
+            de: "Gehen Sie geradeaus und dann links.",
+            zh: "請直走，然後左轉。",
+            en: "Go straight ahead and then left."
+          },
+          {
+            de: "Ich zahle mit Karte.",
+            zh: "我刷卡付款。",
+            en: "I am paying by card."
+          }
+        ],
+        explanation: "問題是在問火車站在哪裡，所以方向指引最合適。"
+      },
+      {
+        scene: "Museum",
+        question: "Möchten Sie ein Ticket kaufen?",
+        questionZh: "您想買一張票嗎？",
+        questionEn: "Would you like to buy a ticket?",
+        correctIndex: 2,
+        choices: [
+          {
+            de: "Ich bin sehr müde.",
+            zh: "我很累。",
+            en: "I am very tired."
+          },
+          {
+            de: "Der Kaffee ist heiß.",
+            zh: "咖啡很熱。",
+            en: "The coffee is hot."
+          },
+          {
+            de: "Ja, ein Ticket für Erwachsene, bitte.",
+            zh: "好的，一張成人票，謝謝。",
+            en: "Yes, one adult ticket, please."
+          }
+        ],
+        explanation: "對方問是否要買票，回答一張成人票最符合博物館情境。"
+      },
+      {
+        scene: "Taxi",
+        question: "Wohin möchten Sie?",
+        questionZh: "您想去哪裡？",
+        questionEn: "Where would you like to go?",
+        correctIndex: 0,
+        choices: [
+          {
+            de: "Zum Hauptbahnhof, bitte.",
+            zh: "去中央火車站，麻煩您。",
+            en: "To the central station, please."
+          },
+          {
+            de: "Ich möchte eine Jacke kaufen.",
+            zh: "我想買一件外套。",
+            en: "I would like to buy a jacket."
+          },
+          {
+            de: "Ich esse kein Fleisch.",
+            zh: "我不吃肉。",
+            en: "I do not eat meat."
+          }
+        ],
+        explanation: "計程車司機問你要去哪裡，回答目的地最合適。"
+      },
+      {
+        scene: "Restaurant",
+        question: "Möchten Sie mit Karte oder bar bezahlen?",
+        questionZh: "您想刷卡還是付現金？",
+        questionEn: "Would you like to pay by card or in cash?",
+        correctIndex: 1,
+        choices: [
+          {
+            de: "Ich hätte gern ein Einzelzimmer.",
+            zh: "我想要一間單人房。",
+            en: "I would like a single room."
+          },
+          {
+            de: "Mit Karte, bitte.",
+            zh: "刷卡，謝謝。",
+            en: "By card, please."
+          },
+          {
+            de: "Der Bus kommt in zehn Minuten.",
+            zh: "公車十分鐘後到。",
+            en: "The bus arrives in ten minutes."
+          }
+        ],
+        explanation: "問題是在問付款方式，Mit Karte 或 bar 都是相關回答。"
+      },
+      {
+        scene: "Bahnsteig",
+        question: "Ist dieser Platz frei?",
+        questionZh: "這個位子有人坐嗎？ / 這個位子是空的嗎？",
+        questionEn: "Is this seat free?",
+        correctIndex: 2,
+        choices: [
+          {
+            de: "Ich möchte einen Kaffee zum Mitnehmen.",
+            zh: "我想要一杯外帶咖啡。",
+            en: "I would like a coffee to go."
+          },
+          {
+            de: "Die Rechnung, bitte.",
+            zh: "請給我帳單。",
+            en: "The bill, please."
+          },
+          {
+            de: "Ja, der Platz ist frei.",
+            zh: "是的，這個座位是空的。",
+            en: "Yes, the seat is free."
+          }
+        ],
+        explanation: "對方問座位是否空著，直接回答座位狀態最合適。"
+      }
     ];
 
-    let currentMainSection = "vocab";
-    let currentVocabIndex = 0;
-    let currentNumberMode = "number";
-    let currentNumberSpeakText = "zweiundvierzig";
-    let isFlipped = false;
-    let speechRate = 0.85;
-    let isWordListOpen = false;
-    let filteredIndexes = vocabCards.map((_, index) => index);
-
-    function switchMainSection(section) {
-      currentMainSection = section;
-
-      const vocabTab = document.getElementById("vocabTab");
-      const numberTab = document.getElementById("numberTab");
-      const vocabSection = document.getElementById("vocabSection");
-      const numberSection = document.getElementById("numberSection");
-      const previewSection = document.getElementById("previewSection");
-      const sectionName = document.getElementById("sectionName");
-      const sectionInfo = document.getElementById("sectionInfo");
-
-      if (section === "vocab") {
-        vocabTab.classList.add("active");
-        numberTab.classList.remove("active");
-
-        vocabSection.classList.remove("hidden");
-        numberSection.classList.add("hidden");
-        previewSection.classList.remove("hidden");
-
-        sectionName.textContent = "德語單字";
-        sectionInfo.textContent = "共 " + vocabCards.length + " 張";
-        renderVocabCard();
-      } else {
-        numberTab.classList.add("active");
-        vocabTab.classList.remove("active");
-
-        numberSection.classList.remove("hidden");
-        vocabSection.classList.add("hidden");
-        previewSection.classList.add("hidden");
-
-        sectionName.textContent = "德語數字";
-        sectionInfo.textContent = "數字 / 年份 / 月份";
-        generateNumberPractice();
+    const difficultSounds = [
+      {
+        symbol: "ä",
+        title: "ä 音",
+        tip: "接近英文 bed 裡的 e，不要讀成中文「欸」太長。",
+        examples: ["März", "spät", "Käse", "Mädchen"]
+      },
+      {
+        symbol: "ö",
+        title: "ö 音",
+        tip: "嘴型像說 o，但舌頭位置像 e。先說 e，再把嘴唇圓起來。",
+        examples: ["hören", "schön", "Öl", "zwölf"]
+      },
+      {
+        symbol: "ü",
+        title: "ü 音",
+        tip: "嘴型像說 u，但舌頭位置像 i。先說 i，再把嘴唇圓起來。",
+        examples: ["müde", "Tür", "fünf", "grün"]
+      },
+      {
+        symbol: "ch",
+        title: "ch 音",
+        tip: "有兩種常見讀法：ich 裡較輕，Bach 裡較靠喉。初學先練 ich 的輕擦音。",
+        examples: ["ich", "nicht", "sprechen", "Buch"]
+      },
+      {
+        symbol: "r",
+        title: "德語 r",
+        tip: "標準德語常用小舌音或較弱的喉音，不必捲舌。詞尾 -er 常弱化。",
+        examples: ["rot", "Reis", "Brot", "Wasser"]
+      },
+      {
+        symbol: "z",
+        title: "z 音",
+        tip: "德語 z 通常讀作 ts，像「츠」的感覺，不讀英文 z。",
+        examples: ["zwei", "zehn", "Zimmer", "Zug"]
+      },
+      {
+        symbol: "ei",
+        title: "ei 雙母音",
+        tip: "ei 通常讀近似英文 eye，不要照字母分開讀 e-i。",
+        examples: ["eins", "klein", "Reis", "heiß"]
+      },
+      {
+        symbol: "ie",
+        title: "ie 長 i",
+        tip: "ie 通常讀長 i，像英文 see 的母音，不讀成 ie 兩個音。",
+        examples: ["sieben", "die", "viel", "Brief"]
       }
-    }
+    ];
 
-    function flipCard() {
-      isFlipped = !isFlipped;
-      updateCardFace();
-    }
+    const allWords = categories.flatMap(category =>
+      category.words.map(word => ({
+        ...word,
+        categoryName: category.name
+      }))
+    );
 
-    function updateCardFace() {
-      const frontFace = document.getElementById("frontFace");
-      const backFace = document.getElementById("backFace");
+    const nounWords = allWords.filter(word => word.type === "noun");
 
-      if (isFlipped) {
-        frontFace.classList.remove("active");
-        frontFace.classList.add("inactive");
-        backFace.classList.remove("inactive");
-        backFace.classList.add("active");
-      } else {
-        backFace.classList.remove("active");
-        backFace.classList.add("inactive");
-        frontFace.classList.remove("inactive");
-        frontFace.classList.add("active");
+    let activeCategory = categories[0].id;
+
+    let dialogueIndex = 0;
+    let dialogueScore = 0;
+    let dialogueAnswered = false;
+    let selectedDialogueChoice = null;
+    let dialogueOrder = shuffleArray([...dialogueQuestions]);
+
+    let articleWord = nounWords[0];
+
+    let dailyWords = [];
+    let dailyIndex = 0;
+    let dailyScore = 0;
+    let dailyAnswered = false;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
       }
+      return arr;
     }
 
-    function resetFlip() {
-      isFlipped = false;
-      updateCardFace();
-    }
-
-    function renderVocabCard() {
-      const card = vocabCards[currentVocabIndex];
-      const total = vocabCards.length;
-      const positionText = currentVocabIndex + 1 + " / " + total;
-
-      document.getElementById("frontIndexBadge").textContent = positionText;
-      document.getElementById("backIndexBadge").textContent = positionText;
-
-      document.getElementById("frontArticleBadge").textContent = card.article;
-      document.getElementById("backTypeBadge").textContent = card.article;
-
-      document.getElementById("word").textContent = card.displayWord;
-      document.getElementById("backWord").textContent = card.fullWord;
-      document.getElementById("pronunciation").textContent = "德語發音：" + card.fullWord;
-
-      document.getElementById("backChinese").textContent = card.chinese;
-      document.getElementById("backEnglish").textContent = card.english;
-      document.getElementById("backTypeNote").textContent = "詞性：" + card.type;
-
-      document.getElementById("exampleDe").textContent = card.exampleDe;
-      document.getElementById("exampleZh").textContent = card.exampleZh;
-      document.getElementById("exampleEn").textContent = card.exampleEn;
-
-      document.getElementById("counter").textContent =
-        "第 " + (currentVocabIndex + 1) + " / " + total + " 張";
-
-      document.getElementById("sectionInfo").textContent = "共 " + total + " 張";
-
-      renderWordList();
-    }
-
-    function nextCard() {
-      if (filteredIndexes.length > 0) {
-        const position = filteredIndexes.indexOf(currentVocabIndex);
-
-        if (position === -1) {
-          currentVocabIndex = filteredIndexes[0];
-        } else {
-          currentVocabIndex = filteredIndexes[(position + 1) % filteredIndexes.length];
-        }
-      } else {
-        currentVocabIndex = (currentVocabIndex + 1) % vocabCards.length;
-      }
-
-      resetFlip();
-      renderVocabCard();
-    }
-
-    function prevCard() {
-      if (filteredIndexes.length > 0) {
-        const position = filteredIndexes.indexOf(currentVocabIndex);
-
-        if (position === -1) {
-          currentVocabIndex = filteredIndexes[0];
-        } else {
-          currentVocabIndex =
-            filteredIndexes[(position - 1 + filteredIndexes.length) % filteredIndexes.length];
-        }
-      } else {
-        currentVocabIndex =
-          (currentVocabIndex - 1 + vocabCards.length) % vocabCards.length;
-      }
-
-      resetFlip();
-      renderVocabCard();
-    }
-
-    function randomCard() {
-      const pool = filteredIndexes.length > 0
-        ? filteredIndexes
-        : vocabCards.map((_, index) => index);
-
-      if (pool.length <= 1) {
-        currentVocabIndex = pool[0] || 0;
-      } else {
-        let newIndex;
-        do {
-          newIndex = pool[Math.floor(Math.random() * pool.length)];
-        } while (newIndex === currentVocabIndex);
-        currentVocabIndex = newIndex;
-      }
-
-      resetFlip();
-      renderVocabCard();
-    }
-
-    function handleSearch() {
-      const keyword = normalizeText(document.getElementById("searchInput").value);
-
-      if (!keyword) {
-        filteredIndexes = vocabCards.map((_, index) => index);
-        document.getElementById("searchResult").textContent =
-          "可輸入德語、中文、英文、冠詞或詞性搜尋。";
-        renderWordList();
-        return;
-      }
-
-      filteredIndexes = vocabCards
-        .map((card, index) => ({ card, index }))
-        .filter(({ card }) => {
-          const haystack = normalizeText([
-            card.displayWord,
-            card.fullWord,
-            card.article,
-            card.type,
-            card.chinese,
-            card.english,
-            card.exampleDe,
-            card.exampleZh,
-            card.exampleEn
-          ].join(" "));
-          return haystack.includes(keyword);
-        })
-        .map(item => item.index);
-
-      document.getElementById("searchResult").textContent =
-        "找到 " + filteredIndexes.length + " 個結果。";
-
-      if (filteredIndexes.length > 0) {
-        currentVocabIndex = filteredIndexes[0];
-        resetFlip();
-        renderVocabCard();
-
-        if (!isWordListOpen) {
-          toggleWordList(true);
-        }
-      } else {
-        renderWordList();
-      }
-    }
-
-    function clearSearch() {
-      document.getElementById("searchInput").value = "";
-      filteredIndexes = vocabCards.map((_, index) => index);
-      document.getElementById("searchResult").textContent =
-        "可輸入德語、中文、英文、冠詞或詞性搜尋。";
-      renderWordList();
-    }
-
-    function normalizeText(text) {
-      return String(text || "")
-        .toLowerCase()
+    function cleanForSpeech(text) {
+      return text
+        .replace(/^der\s+/i, "")
+        .replace(/^die\s+/i, "")
+        .replace(/^das\s+/i, "")
         .trim();
     }
 
-    function toggleWordList(forceOpen) {
-      if (typeof forceOpen === "boolean") {
-        isWordListOpen = forceOpen;
-      } else {
-        isWordListOpen = !isWordListOpen;
-      }
-
-      const content = document.getElementById("wordListContent");
-      const text = document.getElementById("listToggleText");
-
-      if (isWordListOpen) {
-        content.classList.add("open");
-        text.textContent = "收起 ▲";
-      } else {
-        content.classList.remove("open");
-        text.textContent = "展開 ▼";
-      }
-    }
-
-    function renderWordList() {
-      const list = document.getElementById("wordList");
-      if (!list) return;
-
-      list.innerHTML = "";
-
-      const indexesToRender = filteredIndexes.length > 0
-        ? filteredIndexes
-        : [];
-
-      if (indexesToRender.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-result";
-        empty.textContent = "沒有符合搜尋條件的單字。";
-        list.appendChild(empty);
-        return;
-      }
-
-      indexesToRender.forEach((index) => {
-        const card = vocabCards[index];
-        const item = document.createElement("button");
-
-        item.className = "word-list-item";
-        if (index === currentVocabIndex) {
-          item.classList.add("active");
-        }
-
-        item.onclick = function () {
-          currentVocabIndex = index;
-          resetFlip();
-          renderVocabCard();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        };
-
-        const number = document.createElement("div");
-        number.className = "word-list-index";
-        number.textContent = index + 1 + ".";
-
-        const main = document.createElement("div");
-        main.className = "word-list-main";
-
-        const strong = document.createElement("strong");
-        strong.textContent = card.fullWord;
-
-        const small = document.createElement("small");
-        small.textContent = card.chinese + " ｜ " + card.english;
-
-        main.appendChild(strong);
-        main.appendChild(small);
-
-        const article = document.createElement("div");
-        article.className = "word-list-article";
-        article.textContent = card.article;
-
-        item.appendChild(number);
-        item.appendChild(main);
-        item.appendChild(article);
-
-        list.appendChild(item);
-      });
-    }
-
-    function updateSpeechRateLabel() {
-      const rateInput = document.getElementById("speechRate");
-      speechRate = parseFloat(rateInput.value);
-
-      document.getElementById("speechRateValue").textContent =
-        speechRate.toFixed(2) + "x";
-
-      const numberInput = document.getElementById("speechRateNumber");
-      const numberLabel = document.getElementById("speechRateValueNumber");
-
-      if (numberInput && numberLabel) {
-        numberInput.value = speechRate;
-        numberLabel.textContent = speechRate.toFixed(2) + "x";
-      }
-    }
-
-    function syncSpeechRateFromNumber() {
-      const numberInput = document.getElementById("speechRateNumber");
-      speechRate = parseFloat(numberInput.value);
-
-      document.getElementById("speechRateValueNumber").textContent =
-        speechRate.toFixed(2) + "x";
-
-      const vocabInput = document.getElementById("speechRate");
-      const vocabLabel = document.getElementById("speechRateValue");
-
-      if (vocabInput && vocabLabel) {
-        vocabInput.value = speechRate;
-        vocabLabel.textContent = speechRate.toFixed(2) + "x";
-      }
-    }
-
-    function switchNumberMode(mode) {
-      currentNumberMode = mode;
-
-      document.getElementById("modeNumber").classList.remove("active");
-      document.getElementById("modeYear").classList.remove("active");
-      document.getElementById("modeMonth").classList.remove("active");
-
-      if (mode === "number") {
-        document.getElementById("modeNumber").classList.add("active");
-        document.getElementById("numberOptions").classList.remove("hidden");
-      } else if (mode === "year") {
-        document.getElementById("modeYear").classList.add("active");
-        document.getElementById("numberOptions").classList.add("hidden");
-      } else {
-        document.getElementById("modeMonth").classList.add("active");
-        document.getElementById("numberOptions").classList.add("hidden");
-      }
-
-      generateNumberPractice();
-    }
-
-    function generateNumberPractice() {
-      if (currentNumberMode === "number") {
-        generateRandomNumber();
-      } else if (currentNumberMode === "year") {
-        generateRandomYear();
-      } else {
-        generateRandomMonth();
-      }
-    }
-
-    function generateRandomNumber() {
-      let min = parseInt(document.getElementById("minNumber").value, 10);
-      let max = parseInt(document.getElementById("maxNumber").value, 10);
-
-      if (isNaN(min)) min = 1;
-      if (isNaN(max)) max = 9999;
-
-      min = Math.trunc(min);
-      max = Math.trunc(max);
-
-      if (min > max) {
-        const temp = min;
-        min = max;
-        max = temp;
-      }
-
-      const value = getRandomInt(min, max);
-      const german = numberToGerman(value);
-
-      document.getElementById("numberBadge").textContent = "隨機數字";
-      document.getElementById("numberValue").textContent = value.toString();
-      document.getElementById("numberGerman").textContent = german;
-      document.getElementById("numberHint").textContent =
-        "整數練習，不包含小數或分數。";
-
-      currentNumberSpeakText = german;
-    }
-
-    function generateRandomYear() {
-      const year = getRandomInt(1900, 2099);
-      const german = yearToGerman(year);
-
-      document.getElementById("numberBadge").textContent = "隨機年份";
-      document.getElementById("numberValue").textContent = year.toString();
-      document.getElementById("numberGerman").textContent = german;
-      document.getElementById("numberHint").textContent =
-        "年份範圍：1900 到 2099。";
-
-      currentNumberSpeakText = german;
-    }
-
-    function generateRandomMonth() {
-      const month = months[getRandomInt(0, months.length - 1)];
-
-      document.getElementById("numberBadge").textContent = "隨機月份";
-      document.getElementById("numberValue").textContent =
-        month.value + " 月";
-      document.getElementById("numberGerman").textContent =
-        month.german + " ｜ " + month.chinese + " ｜ " + month.english;
-      document.getElementById("numberHint").textContent =
-        "月份可搭配介詞 im 使用，例如：im " + month.german + "。";
-
-      currentNumberSpeakText = month.german;
-    }
-
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function numberToGerman(num) {
-      if (num === 0) return "null";
-
-      if (num < 0) {
-        return "minus " + numberToGerman(Math.abs(num));
-      }
-
-      const ones = [
-        "",
-        "eins",
-        "zwei",
-        "drei",
-        "vier",
-        "fünf",
-        "sechs",
-        "sieben",
-        "acht",
-        "neun"
-      ];
-
-      const onesCompound = [
-        "",
-        "ein",
-        "zwei",
-        "drei",
-        "vier",
-        "fünf",
-        "sechs",
-        "sieben",
-        "acht",
-        "neun"
-      ];
-
-      const teens = {
-        10: "zehn",
-        11: "elf",
-        12: "zwölf",
-        13: "dreizehn",
-        14: "vierzehn",
-        15: "fünfzehn",
-        16: "sechzehn",
-        17: "siebzehn",
-        18: "achtzehn",
-        19: "neunzehn"
-      };
-
-      const tens = {
-        20: "zwanzig",
-        30: "dreißig",
-        40: "vierzig",
-        50: "fünfzig",
-        60: "sechzig",
-        70: "siebzig",
-        80: "achtzig",
-        90: "neunzig"
-      };
-
-      if (num < 10) {
-        return ones[num];
-      }
-
-      if (num < 20) {
-        return teens[num];
-      }
-
-      if (num < 100) {
-        const ten = Math.floor(num / 10) * 10;
-        const one = num % 10;
-
-        if (one === 0) {
-          return tens[ten];
-        }
-
-        return onesCompound[one] + "und" + tens[ten];
-      }
-
-      if (num < 1000) {
-        const hundred = Math.floor(num / 100);
-        const rest = num % 100;
-
-        let result = hundred === 1 ? "einhundert" : onesCompound[hundred] + "hundert";
-
-        if (rest > 0) {
-          result += numberToGerman(rest);
-        }
-
-        return result;
-      }
-
-      if (num < 1000000) {
-        const thousand = Math.floor(num / 1000);
-        const rest = num % 1000;
-
-        let result = "";
-
-        if (thousand === 1) {
-          result = "eintausend";
-        } else {
-          result = numberToGerman(thousand) + "tausend";
-        }
-
-        if (rest > 0) {
-          result += numberToGerman(rest);
-        }
-
-        return result;
-      }
-
-      return num.toString();
-    }
-
-    function yearToGerman(year) {
-      if (year >= 1100 && year <= 1999) {
-        const firstPart = Math.floor(year / 100);
-        const lastPart = year % 100;
-
-        if (lastPart === 0) {
-          return numberToGerman(firstPart) + "hundert";
-        }
-
-        return numberToGerman(firstPart) + "hundert" + numberToGerman(lastPart);
-      }
-
-      return numberToGerman(year);
-    }
-
-    function speak(text) {
+    function speakGerman(text) {
       if (!("speechSynthesis" in window)) {
+        showToast("你的瀏覽器不支援語音播放。");
         return;
       }
 
@@ -1912,29 +1678,575 @@
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "de-DE";
-      utterance.rate = speechRate;
+      utterance.rate = 0.82;
       utterance.pitch = 1;
+
+      const voices = window.speechSynthesis.getVoices();
+      const germanVoice = voices.find(voice =>
+        voice.lang && voice.lang.toLowerCase().startsWith("de")
+      );
+
+      if (germanVoice) {
+        utterance.voice = germanVoice;
+      }
 
       window.speechSynthesis.speak(utterance);
     }
 
-    function speakVocabWord() {
-      const card = vocabCards[currentVocabIndex];
-      speak(card.fullWord);
+    function showToast(message) {
+      const oldToast = document.querySelector(".toast-message");
+      if (oldToast) oldToast.remove();
+
+      const toast = document.createElement("div");
+      toast.className = "toast-message";
+      toast.textContent = message;
+      toast.style.position = "fixed";
+      toast.style.left = "50%";
+      toast.style.bottom = "24px";
+      toast.style.transform = "translateX(-50%)";
+      toast.style.background = "#111827";
+      toast.style.color = "white";
+      toast.style.padding = "12px 16px";
+      toast.style.borderRadius = "999px";
+      toast.style.boxShadow = "0 12px 24px rgba(0,0,0,0.22)";
+      toast.style.zIndex = "999";
+      toast.style.fontSize = "14px";
+      toast.style.maxWidth = "92%";
+      toast.style.textAlign = "center";
+
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2300);
     }
 
-    function speakVocabExample() {
-      const card = vocabCards[currentVocabIndex];
-      speak(card.exampleDe);
+    function normalizeText(text) {
+      return text
+        .toLowerCase()
+        .replace(/[.,!?;:]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
     }
 
-    function speakNumberPractice() {
-      speak(currentNumberSpeakText);
+    function similarity(a, b) {
+      a = normalizeText(a);
+      b = normalizeText(b);
+
+      if (!a || !b) return 0;
+      if (a === b) return 1;
+      if (a.includes(b) || b.includes(a)) return 0.85;
+
+      const matrix = Array.from({ length: a.length + 1 }, () => []);
+      for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+      for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+      for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j - 1] + cost
+          );
+        }
+      }
+
+      const distance = matrix[a.length][b.length];
+      return 1 - distance / Math.max(a.length, b.length);
     }
 
-    renderVocabCard();
-    updateSpeechRateLabel();
-    updateCardFace();
+    function recognizeGerman(callbacks) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        callbacks.onUnsupported();
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "de-DE";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 3;
+
+      recognition.onstart = callbacks.onStart;
+
+      recognition.onresult = event => {
+        const alternatives = Array.from(event.results[0]).map(item => item.transcript);
+        callbacks.onResult(alternatives);
+      };
+
+      recognition.onerror = event => {
+        callbacks.onError(event.error);
+      };
+
+      recognition.onend = callbacks.onEnd;
+
+      recognition.start();
+    }
+
+    function renderMainNav() {
+      const buttons = document.querySelectorAll(".nav-btn");
+      const panels = document.querySelectorAll(".panel");
+
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          buttons.forEach(btn => btn.classList.remove("active"));
+          panels.forEach(panel => panel.classList.remove("active"));
+
+          button.classList.add("active");
+          document.getElementById(button.dataset.panel).classList.add("active");
+        });
+      });
+    }
+
+    function renderCategoryTabs() {
+      const tabs = document.getElementById("categoryTabs");
+      tabs.innerHTML = "";
+
+      categories.forEach(category => {
+        const button = document.createElement("button");
+        button.className = "sub-tab" + (category.id === activeCategory ? " active" : "");
+        button.textContent = category.name;
+
+        button.addEventListener("click", () => {
+          activeCategory = category.id;
+          renderCategoryTabs();
+          renderWords();
+        });
+
+        tabs.appendChild(button);
+      });
+    }
+
+    function typeLabel(type) {
+      if (type === "noun") return "名詞";
+      if (type === "verb") return "動詞";
+      if (type === "adjective") return "形容詞";
+      return "單字";
+    }
+
+    function renderWords() {
+      const grid = document.getElementById("wordGrid");
+      const category = categories.find(item => item.id === activeCategory);
+      grid.innerHTML = "";
+
+      category.words.forEach(word => {
+        const card = document.createElement("div");
+        card.className = "word-card";
+
+        const articleHtml = word.type === "noun"
+          ? `
+            <div class="article-box">
+              <div><strong>冠詞：</strong>${word.article}</div>
+              <div><strong>原因：</strong>${word.reason}</div>
+            </div>
+          `
+          : "";
+
+        card.innerHTML = `
+          <div>
+            <div class="de">${word.de}</div>
+            <div class="zh">${word.zh}</div>
+            <div class="en">${word.en}</div>
+            <div class="badge-row">
+              <span class="badge">${typeLabel(word.type)}</span>
+              ${word.type === "noun" ? `<span class="badge green">${word.article}</span>` : ""}
+              <span class="badge purple">${category.name}</span>
+            </div>
+            ${articleHtml}
+          </div>
+          <div class="note">點擊卡片播放發音</div>
+        `;
+
+        card.addEventListener("click", () => speakGerman(word.de));
+        grid.appendChild(card);
+      });
+    }
+
+    function renderDialogue() {
+      const question = dialogueOrder[dialogueIndex];
+
+      dialogueAnswered = false;
+      selectedDialogueChoice = null;
+
+      document.getElementById("dialogueNumber").textContent = String(dialogueIndex + 1);
+      document.getElementById("dialogueScore").textContent = String(dialogueScore);
+      document.getElementById("dialogueScene").textContent = question.scene;
+      document.getElementById("dialogueSceneBadge").textContent = question.scene;
+      document.getElementById("dialogueQuestion").textContent = question.question;
+
+      const choicesContainer = document.getElementById("dialogueChoices");
+      choicesContainer.innerHTML = "";
+
+      question.choices.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.className = "choice-card";
+        button.innerHTML = `
+          <span class="choice-number">${index + 1}</span>
+          <strong>${choice.de}</strong>
+        `;
+
+        button.addEventListener("click", () => handleDialogueChoiceClick(index));
+        choicesContainer.appendChild(button);
+      });
+
+      document.getElementById("dialogueResultBox").classList.remove("active");
+      document.getElementById("dialogueResultContent").innerHTML = "";
+      document.getElementById("confirmDialogueBtn").disabled = true;
+      document.getElementById("nextDialogueBtn").disabled = true;
+    }
+
+    function handleDialogueChoiceClick(index) {
+      const question = dialogueOrder[dialogueIndex];
+
+      speakGerman(question.choices[index].de);
+
+      if (dialogueAnswered) {
+        return;
+      }
+
+      selectedDialogueChoice = index;
+
+      const buttons = document.querySelectorAll("#dialogueChoices .choice-card");
+      buttons.forEach(button => button.classList.remove("selected"));
+      buttons[index].classList.add("selected");
+
+      document.getElementById("confirmDialogueBtn").disabled = false;
+    }
+
+    function confirmDialogueAnswer() {
+      if (dialogueAnswered) return;
+
+      if (selectedDialogueChoice === null) {
+        showToast("請先點選一個選項。");
+        return;
+      }
+
+      const question = dialogueOrder[dialogueIndex];
+      const selectedIndex = selectedDialogueChoice;
+      const buttons = document.querySelectorAll("#dialogueChoices .choice-card");
+
+      dialogueAnswered = true;
+
+      buttons.forEach((button, index) => {
+        button.classList.remove("selected");
+
+        if (index === question.correctIndex) {
+          button.classList.add("correct");
+        }
+
+        if (index === selectedIndex && selectedIndex !== question.correctIndex) {
+          button.classList.add("wrong");
+        }
+      });
+
+      if (selectedIndex === question.correctIndex) {
+        dialogueScore += 1;
+        document.getElementById("dialogueScore").textContent = String(dialogueScore);
+      }
+
+      const resultTitle = document.getElementById("dialogueResultTitle");
+      resultTitle.innerHTML = selectedIndex === question.correctIndex
+        ? `<span class="good">Richtig!</span>`
+        : `<span class="bad">Nicht ganz.</span>`;
+
+      const content = document.getElementById("dialogueResultContent");
+
+      const choiceTranslations = question.choices.map((choice, index) => `
+        <div class="translation-item">
+          <div class="translation-de">${index + 1}. ${choice.de}</div>
+          <div class="translation-zh">中文：${choice.zh}</div>
+          <div class="translation-en">English: ${choice.en}</div>
+        </div>
+      `).join("");
+
+      content.innerHTML = `
+        <div class="status-box">
+          <div><strong>正確答案：</strong>${question.correctIndex + 1}. ${question.choices[question.correctIndex].de}</div>
+          <div><strong>簡潔說明：</strong>${question.explanation}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>問題對照</h3>
+        <div class="translation-item">
+          <div class="translation-de">${question.question}</div>
+          <div class="translation-zh">中文：${question.questionZh}</div>
+          <div class="translation-en">English: ${question.questionEn}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>三個選項對照</h3>
+        ${choiceTranslations}
+      `;
+
+      document.getElementById("dialogueResultBox").classList.add("active");
+      document.getElementById("confirmDialogueBtn").disabled = true;
+      document.getElementById("nextDialogueBtn").disabled = false;
+    }
+
+    function nextDialogue() {
+      if (dialogueIndex < dialogueOrder.length - 1) {
+        dialogueIndex += 1;
+      } else {
+        dialogueIndex = 0;
+        dialogueScore = 0;
+        dialogueOrder = shuffleArray([...dialogueQuestions]);
+        showToast("已完成一輪，重新開始。");
+      }
+
+      renderDialogue();
+    }
+
+    function pickArticleWord() {
+      const index = Math.floor(Math.random() * nounWords.length);
+      articleWord = nounWords[index];
+
+      document.getElementById("articleBlank").textContent = "___";
+      document.getElementById("articleNoun").textContent = articleWord.bare;
+      document.getElementById("articleZh").textContent = articleWord.zh;
+      document.getElementById("articleEn").textContent = articleWord.en;
+      document.getElementById("articleInput").value = "";
+      document.getElementById("articleResult").textContent = "尚未作答";
+      document.getElementById("articleResult").className = "";
+      document.getElementById("articleExplanation").textContent = "請輸入 der、die 或 das。";
+      document.getElementById("articleExplanation").className = "";
+    }
+
+    function checkArticleAnswer() {
+      const input = document.getElementById("articleInput").value.trim().toLowerCase();
+      const result = document.getElementById("articleResult");
+      const explanation = document.getElementById("articleExplanation");
+
+      if (!["der", "die", "das"].includes(input)) {
+        result.textContent = "請輸入 der、die 或 das。";
+        result.className = "mid";
+        explanation.textContent = "冠詞練習只接受這三個定冠詞。";
+        explanation.className = "mid";
+        return;
+      }
+
+      document.getElementById("articleBlank").textContent = articleWord.article;
+
+      if (input === articleWord.article) {
+        result.textContent = `正確！${articleWord.article} ${articleWord.bare}`;
+        result.className = "good";
+      } else {
+        result.textContent = `不正確。正確是：${articleWord.article} ${articleWord.bare}`;
+        result.className = "bad";
+      }
+
+      explanation.textContent = articleWord.reason;
+      explanation.className = "";
+    }
+
+    function pickDailyWords() {
+      const pool = [...allWords];
+      const result = [];
+
+      while (result.length < 10 && pool.length > 0) {
+        const index = Math.floor(Math.random() * pool.length);
+        result.push(pool.splice(index, 1)[0]);
+      }
+
+      return result;
+    }
+
+    function resetDailyPractice() {
+      dailyWords = pickDailyWords();
+      dailyIndex = 0;
+      dailyScore = 0;
+      dailyAnswered = false;
+      updateDailyView();
+      document.getElementById("dailyRecognized").textContent = "尚未開始";
+      document.getElementById("dailyFeedback").textContent = "請先播放標準發音，然後開始錄音。";
+      document.getElementById("dailyFeedback").className = "";
+      document.getElementById("dailyStateText").textContent = "準備";
+    }
+
+    function updateDailyView() {
+      const word = dailyWords[dailyIndex];
+
+      document.getElementById("dailyDe").textContent = word.de;
+      document.getElementById("dailyZh").textContent = word.zh;
+      document.getElementById("dailyEn").textContent = word.en;
+
+      document.getElementById("dailyProgressText").textContent = `${dailyIndex + 1} / 10`;
+      document.getElementById("dailyScoreText").textContent = String(dailyScore);
+      document.getElementById("dailyProgressBar").style.width = `${(dailyIndex / 10) * 100}%`;
+    }
+
+    function recordDailyPronunciation() {
+      const word = dailyWords[dailyIndex];
+      const target = cleanForSpeech(word.de);
+
+      recognizeGerman({
+        onUnsupported() {
+          document.getElementById("dailyRecognized").textContent = "此瀏覽器不支援語音辨識。";
+          document.getElementById("dailyFeedback").textContent = "建議使用 Chrome 測試發音練習。";
+          document.getElementById("dailyFeedback").className = "bad";
+          document.getElementById("dailyStateText").textContent = "不支援";
+        },
+        onStart() {
+          document.getElementById("dailyRecognized").textContent = "正在聽你說德語……";
+          document.getElementById("dailyFeedback").textContent = "請清楚讀出目標單字。";
+          document.getElementById("dailyFeedback").className = "mid";
+          document.getElementById("dailyStateText").textContent = "聆聽中";
+        },
+        onResult(alternatives) {
+          const recognized = alternatives[0] || "";
+          const bestScore = Math.max(...alternatives.map(text => similarity(text, target)));
+
+          document.getElementById("dailyRecognized").textContent = recognized;
+
+          const feedback = document.getElementById("dailyFeedback");
+
+          if (bestScore >= 0.82) {
+            feedback.textContent = "很好！系統聽起來很接近目標單字。";
+            feedback.className = "good";
+            if (!dailyAnswered) {
+              dailyScore += 1;
+              dailyAnswered = true;
+            }
+            document.getElementById("dailyStateText").textContent = "通過";
+          } else if (bestScore >= 0.55) {
+            feedback.textContent = "有點接近。建議放慢速度，注意母音與重音，再試一次。";
+            feedback.className = "mid";
+            dailyAnswered = true;
+            document.getElementById("dailyStateText").textContent = "接近";
+          } else {
+            feedback.textContent = "系統沒有聽成目標單字。請先聽標準發音，再重複練習。";
+            feedback.className = "bad";
+            dailyAnswered = true;
+            document.getElementById("dailyStateText").textContent = "再練";
+          }
+
+          document.getElementById("dailyScoreText").textContent = String(dailyScore);
+        },
+        onError(error) {
+          document.getElementById("dailyRecognized").textContent = "辨識失敗：" + error;
+          document.getElementById("dailyFeedback").textContent = "可能是麥克風權限、網路或瀏覽器支援問題。";
+          document.getElementById("dailyFeedback").className = "bad";
+          document.getElementById("dailyStateText").textContent = "錯誤";
+        },
+        onEnd() {
+          const text = document.getElementById("dailyRecognized").textContent;
+          if (text === "正在聽你說德語……") {
+            document.getElementById("dailyRecognized").textContent = "沒有偵測到語音。";
+            document.getElementById("dailyFeedback").textContent = "請確認麥克風權限，然後再試一次。";
+            document.getElementById("dailyFeedback").className = "bad";
+            document.getElementById("dailyStateText").textContent = "未偵測";
+          }
+        }
+      });
+    }
+
+    function nextDailyQuestion() {
+      if (dailyIndex < 9) {
+        dailyIndex += 1;
+        dailyAnswered = false;
+        updateDailyView();
+        document.getElementById("dailyRecognized").textContent = "尚未開始";
+        document.getElementById("dailyFeedback").textContent = "請先播放標準發音，然後開始錄音。";
+        document.getElementById("dailyFeedback").className = "";
+        document.getElementById("dailyStateText").textContent = "準備";
+      } else {
+        document.getElementById("dailyProgressBar").style.width = "100%";
+        document.getElementById("dailyStateText").textContent = "完成";
+        document.getElementById("dailyFeedback").textContent = `今日 10 題完成！你的分數是 ${dailyScore} / 10。`;
+        document.getElementById("dailyFeedback").className = dailyScore >= 8 ? "good" : dailyScore >= 5 ? "mid" : "bad";
+        showToast(`完成！分數：${dailyScore} / 10`);
+      }
+    }
+
+    function renderSoundPractice() {
+      const grid = document.getElementById("soundGrid");
+      grid.innerHTML = "";
+
+      difficultSounds.forEach(sound => {
+        const card = document.createElement("div");
+        card.className = "sound-card";
+
+        const examples = sound.examples.map(example => `
+          <button class="example-chip" data-word="${example}">${example}</button>
+        `).join("");
+
+        card.innerHTML = `
+          <div class="sound-symbol">${sound.symbol}</div>
+          <h3>${sound.title}</h3>
+          <div class="tip">${sound.tip}</div>
+          <div class="example-list">${examples}</div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      document.querySelectorAll(".example-chip").forEach(button => {
+        button.addEventListener("click", event => {
+          event.stopPropagation();
+          speakGerman(button.dataset.word);
+        });
+      });
+    }
+
+    document.getElementById("dialogueQuestionCard").addEventListener("click", () => {
+      const question = dialogueOrder[dialogueIndex];
+      speakGerman(question.question);
+    });
+
+    document.getElementById("confirmDialogueBtn").addEventListener("click", () => {
+      confirmDialogueAnswer();
+    });
+
+    document.getElementById("nextDialogueBtn").addEventListener("click", () => {
+      nextDialogue();
+    });
+
+    document.getElementById("checkArticleBtn").addEventListener("click", () => {
+      checkArticleAnswer();
+    });
+
+    document.getElementById("articleInput").addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        checkArticleAnswer();
+      }
+    });
+
+    document.getElementById("playArticleNounBtn").addEventListener("click", () => {
+      speakGerman(`${articleWord.article} ${articleWord.bare}`);
+    });
+
+    document.getElementById("nextArticleBtn").addEventListener("click", () => {
+      pickArticleWord();
+    });
+
+    document.getElementById("playDailyBtn").addEventListener("click", () => {
+      speakGerman(dailyWords[dailyIndex].de);
+    });
+
+    document.getElementById("recordDailyBtn").addEventListener("click", () => {
+      recordDailyPronunciation();
+    });
+
+    document.getElementById("nextDailyBtn").addEventListener("click", () => {
+      nextDailyQuestion();
+    });
+
+    document.getElementById("restartDailyBtn").addEventListener("click", () => {
+      resetDailyPractice();
+      showToast("已重新產生今日 10 題。");
+    });
+
+    window.speechSynthesis.onvoiceschanged = function() {
+      window.speechSynthesis.getVoices();
+    };
+
+    renderMainNav();
+    renderCategoryTabs();
+    renderWords();
+    renderDialogue();
+    pickArticleWord();
+    resetDailyPractice();
+    renderSoundPractice();
   </script>
 </body>
 </html>
